@@ -1,0 +1,6 @@
+include CHANGELOG.md CITATION.cff mkdocs.yml
+graft docs
+graft examples
+graft scripts
+graft benchmarks
+global-exclude __pycache__ *.py[cod]

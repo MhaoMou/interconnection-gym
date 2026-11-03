@@ -1,0 +1,1367 @@
+[
+ {
+  "task": "uniform-ieee14",
+  "baseline": "best_response",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 0.25307393074035645,
+  "exploitability": 5.27820274569479e-11,
+  "efficiency": 0.8068023318407858,
+  "distance": 7.128248842331178e-10,
+  "converged": true,
+  "strategy": [
+   46.78469061636245,
+   25.395658796478653,
+   25.395658796478653
+  ]
+ },
+ {
+  "task": "uniform-ieee14",
+  "baseline": "best_response",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 0.285236120223999,
+  "exploitability": 0.0,
+  "efficiency": 0.8068023319455973,
+  "distance": 7.121084089206261e-10,
+  "converged": true,
+  "strategy": [
+   46.784690616288685,
+   25.395658791415244,
+   25.395658791415244
+  ]
+ },
+ {
+  "task": "uniform-ieee14",
+  "baseline": "best_response",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 0.2857537269592285,
+  "exploitability": 7.880632232679009e-10,
+  "efficiency": 0.8068023318407858,
+  "distance": 1.9965334925293317e-09,
+  "converged": true,
+  "strategy": [
+   46.78469074613082,
+   25.395658896705957,
+   25.39565882203469
+  ]
+ },
+ {
+  "task": "uniform-ieee14",
+  "baseline": "hedge",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 0.23547005653381348,
+  "exploitability": 0.010139149319083511,
+  "efficiency": 0.8030236741485621,
+  "distance": 0.02534787329770885,
+  "strategy": [
+   46.32769343332646,
+   25.395658795299397,
+   26.349818599999978
+  ]
+ },
+ {
+  "task": "uniform-ieee14",
+  "baseline": "hedge",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 0.23814082145690918,
+  "exploitability": 0.010139149319083511,
+  "efficiency": 0.8030236741485621,
+  "distance": 0.02534787329770885,
+  "strategy": [
+   46.32769343332646,
+   25.395658795299397,
+   26.349818599999978
+  ]
+ },
+ {
+  "task": "uniform-ieee14",
+  "baseline": "hedge",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 0.23996496200561523,
+  "exploitability": 0.010139149319083511,
+  "efficiency": 0.8030236741485621,
+  "distance": 0.02534787329770885,
+  "strategy": [
+   46.32769343332646,
+   25.395658795299397,
+   26.349818599999978
+  ]
+ },
+ {
+  "task": "uniform-ieee14",
+  "baseline": "independent_pg",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 0.1088099479675293,
+  "exploitability": 0.00021174767018981524,
+  "efficiency": 0.8068023318407858,
+  "distance": 0.0005293701665791961,
+  "strategy": [
+   46.83269586043202,
+   25.415537955221726,
+   25.415585663673124
+  ]
+ },
+ {
+  "task": "uniform-ieee14",
+  "baseline": "independent_pg",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 0.10737824440002441,
+  "exploitability": 0.0002272988083277472,
+  "efficiency": 0.8068023318407858,
+  "distance": 0.0005682489213832798,
+  "strategy": [
+   46.829879025454694,
+   25.416195809796385,
+   25.417049161010954
+  ]
+ },
+ {
+  "task": "uniform-ieee14",
+  "baseline": "independent_pg",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 0.10129880905151367,
+  "exploitability": 0.00022196050227386047,
+  "efficiency": 0.8068023318407858,
+  "distance": 0.0005549069698656161,
+  "strategy": [
+   46.83170859579937,
+   25.415994725490325,
+   25.41654693529344
+  ]
+ },
+ {
+  "task": "uniform-random8",
+  "baseline": "best_response",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 2.1589407920837402,
+  "exploitability": 1.6656029355745418e-10,
+  "efficiency": 0.7024610758751445,
+  "distance": 5.690066036608324e-10,
+  "converged": true,
+  "strategy": [
+   0.1201649488719895,
+   0.39244909688859986,
+   0.3924490964961508,
+   0.1201649488719895,
+   0.3924490964961508,
+   0.1201649488719895,
+   0.1201649488719895,
+   0.1201649488719895
+  ]
+ },
+ {
+  "task": "uniform-random8",
+  "baseline": "best_response",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 1.1815197467803955,
+  "exploitability": 0.0,
+  "efficiency": 0.702461075794273,
+  "distance": 1.396961085474009e-10,
+  "converged": true,
+  "strategy": [
+   0.12016494891011119,
+   0.39244909628408475,
+   0.39244909628408475,
+   0.12016494891011119,
+   0.39244909628408475,
+   0.12016494891011119,
+   0.12016494891011119,
+   0.12016494891011119
+  ]
+ },
+ {
+  "task": "uniform-random8",
+  "baseline": "best_response",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 1.649543046951294,
+  "exploitability": 0.0,
+  "efficiency": 0.7024610754550822,
+  "distance": 5.565679476709771e-10,
+  "converged": true,
+  "strategy": [
+   0.12016494864406861,
+   0.3924490964217505,
+   0.3924490964217505,
+   0.12016494864406861,
+   0.3924490964217505,
+   0.12016494864406861,
+   0.12016494864406861,
+   0.12016494864406861
+  ]
+ },
+ {
+  "task": "uniform-random8",
+  "baseline": "hedge",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 1.6202940940856934,
+  "exploitability": 0.013001817052421176,
+  "efficiency": 0.7013769292700879,
+  "distance": 0.03551449285094741,
+  "strategy": [
+   0.13688578888438224,
+   0.37699177432301356,
+   0.41009371882519174,
+   0.1563525171542046,
+   0.386422828488053,
+   0.13373504070546277,
+   0.11498300171678294,
+   0.1195221577748288
+  ]
+ },
+ {
+  "task": "uniform-random8",
+  "baseline": "hedge",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 1.659517765045166,
+  "exploitability": 0.013001817052421176,
+  "efficiency": 0.7013769292700879,
+  "distance": 0.03551449285094741,
+  "strategy": [
+   0.13688578888438224,
+   0.37699177432301356,
+   0.41009371882519174,
+   0.1563525171542046,
+   0.386422828488053,
+   0.13373504070546277,
+   0.11498300171678294,
+   0.1195221577748288
+  ]
+ },
+ {
+  "task": "uniform-random8",
+  "baseline": "hedge",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 1.635119915008545,
+  "exploitability": 0.011587695779554803,
+  "efficiency": 0.6943263682615274,
+  "distance": 0.03551449285094741,
+  "strategy": [
+   0.13688578888438224,
+   0.37699177432301356,
+   0.41009371882519174,
+   0.1042350114361364,
+   0.386422828488053,
+   0.13373504070546277,
+   0.11498300171678294,
+   0.1195221577748288
+  ]
+ },
+ {
+  "task": "uniform-random8",
+  "baseline": "independent_pg",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 0.2696249485015869,
+  "exploitability": 0.00017202662095756936,
+  "efficiency": 0.7024610758751445,
+  "distance": 0.0004300673701004324,
+  "strategy": [
+   0.12031623705811376,
+   0.3928030206764467,
+   0.3928900161701975,
+   0.12038166954353129,
+   0.3928969141534063,
+   0.12028773674002897,
+   0.12032752867420002,
+   0.12030305497982607
+  ]
+ },
+ {
+  "task": "uniform-random8",
+  "baseline": "independent_pg",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 0.279371976852417,
+  "exploitability": 0.00016782326062799992,
+  "efficiency": 0.7024610758751445,
+  "distance": 0.00041956015200140503,
+  "strategy": [
+   0.12030952334680747,
+   0.3927681108920655,
+   0.39287924380983563,
+   0.12037934174370249,
+   0.3928937646115572,
+   0.12029083588756605,
+   0.1203219649783264,
+   0.12031022527302239
+  ]
+ },
+ {
+  "task": "uniform-random8",
+  "baseline": "independent_pg",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 0.27165722846984863,
+  "exploitability": 0.00016790443883232285,
+  "efficiency": 0.7024610758751445,
+  "distance": 0.0004197617360386194,
+  "strategy": [
+   0.12031255526960846,
+   0.3927538422527262,
+   0.39287722213242166,
+   0.12038910539765511,
+   0.39291254068755455,
+   0.12027804416851538,
+   0.12030762158123691,
+   0.12029167898655634
+  ]
+ },
+ {
+  "task": "flatfee-ieee14",
+  "baseline": "best_response",
+  "seed": 0,
+  "expected": "band",
+  "seconds": 0.10602116584777832,
+  "exploitability": 0.0,
+  "efficiency": 1.0,
+  "distance": 0.0,
+  "in_band": true,
+  "converged": true,
+  "strategy": [
+   428.84087111842274,
+   428.84087068958183
+  ]
+ },
+ {
+  "task": "flatfee-ieee14",
+  "baseline": "best_response",
+  "seed": 1,
+  "expected": "band",
+  "seconds": 0.10506105422973633,
+  "exploitability": 0.0,
+  "efficiency": 1.0,
+  "distance": 0.0,
+  "in_band": true,
+  "converged": true,
+  "strategy": [
+   428.84087111842274,
+   428.84087068958183
+  ]
+ },
+ {
+  "task": "flatfee-ieee14",
+  "baseline": "best_response",
+  "seed": 2,
+  "expected": "band",
+  "seconds": 0.08737301826477051,
+  "exploitability": 0.0,
+  "efficiency": 1.0,
+  "distance": 0.0,
+  "in_band": true,
+  "converged": true,
+  "strategy": [
+   428.84087111842274,
+   428.84087068958183
+  ]
+ },
+ {
+  "task": "flatfee-ieee14",
+  "baseline": "hedge",
+  "seed": 0,
+  "expected": "band",
+  "seconds": 0.22338509559631348,
+  "exploitability": 0.0,
+  "efficiency": 1.0,
+  "distance": 0.0,
+  "in_band": true,
+  "strategy": [
+   470.6840810000001,
+   428.8408702607409
+  ]
+ },
+ {
+  "task": "flatfee-ieee14",
+  "baseline": "hedge",
+  "seed": 1,
+  "expected": "band",
+  "seconds": 0.23159408569335938,
+  "exploitability": 0.0,
+  "efficiency": 1.0,
+  "distance": 0.0,
+  "in_band": true,
+  "strategy": [
+   470.6840810000001,
+   428.8408702607409
+  ]
+ },
+ {
+  "task": "flatfee-ieee14",
+  "baseline": "hedge",
+  "seed": 2,
+  "expected": "band",
+  "seconds": 0.21303296089172363,
+  "exploitability": 0.0,
+  "efficiency": 1.0,
+  "distance": 0.0,
+  "in_band": true,
+  "strategy": [
+   470.6840810000001,
+   428.8408702607409
+  ]
+ },
+ {
+  "task": "flatfee-ieee14",
+  "baseline": "independent_pg",
+  "seed": 0,
+  "expected": "band",
+  "seconds": 0.13184690475463867,
+  "exploitability": 0.0,
+  "efficiency": 1.0,
+  "distance": 0.0,
+  "in_band": true,
+  "strategy": [
+   338.1567794672761,
+   332.7295815315433
+  ]
+ },
+ {
+  "task": "flatfee-ieee14",
+  "baseline": "independent_pg",
+  "seed": 1,
+  "expected": "band",
+  "seconds": 0.1372990608215332,
+  "exploitability": 0.0,
+  "efficiency": 1.0,
+  "distance": 0.0,
+  "in_band": true,
+  "strategy": [
+   323.32604050733806,
+   330.9538723060109
+  ]
+ },
+ {
+  "task": "flatfee-ieee14",
+  "baseline": "independent_pg",
+  "seed": 2,
+  "expected": "band",
+  "seconds": 0.13486886024475098,
+  "exploitability": 0.0,
+  "efficiency": 1.0,
+  "distance": 0.0,
+  "in_band": true,
+  "strategy": [
+   338.8085901074214,
+   331.1583843408768
+  ]
+ },
+ {
+  "task": "proportional-limit",
+  "baseline": "best_response",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 1.016420841217041,
+  "exploitability": 0.333333333666667,
+  "efficiency": 0.7222222220555555,
+  "distance": 0.08680581351126149,
+  "converged": false,
+  "strategy": [
+   3.333334881067569,
+   1.6666674405337845,
+   2.2222232518228227,
+   3.333334874400899
+  ]
+ },
+ {
+  "task": "proportional-limit",
+  "baseline": "best_response",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 1.0363719463348389,
+  "exploitability": 0.3333333338888895,
+  "efficiency": 0.7222222220555555,
+  "distance": 0.08680591021701023,
+  "converged": false,
+  "strategy": [
+   3.3333354613020614,
+   1.666667728984363,
+   2.2222236364235934,
+   3.3333354513020548
+  ]
+ },
+ {
+  "task": "proportional-limit",
+  "baseline": "best_response",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 0.9894740581512451,
+  "exploitability": 0.33333333344444455,
+  "efficiency": 0.7222222222407408,
+  "distance": 0.08680556420996714,
+  "converged": false,
+  "strategy": [
+   3.333333385259803,
+   1.6666666926299014,
+   2.222222254617646,
+   3.333333385259803
+  ]
+ },
+ {
+  "task": "proportional-limit",
+  "baseline": "hedge",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 0.09116005897521973,
+  "exploitability": 0.0008066615170333099,
+  "efficiency": 0.7916666666666666,
+  "distance": 0.03125,
+  "strategy": [
+   3.0,
+   1.5,
+   2.0,
+   3.0
+  ]
+ },
+ {
+  "task": "proportional-limit",
+  "baseline": "hedge",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 0.0912330150604248,
+  "exploitability": 0.0008066615170333099,
+  "efficiency": 0.7916666666666666,
+  "distance": 0.03125,
+  "strategy": [
+   3.0,
+   1.5,
+   2.0,
+   3.0
+  ]
+ },
+ {
+  "task": "proportional-limit",
+  "baseline": "hedge",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 0.091094970703125,
+  "exploitability": 0.0008066615170333099,
+  "efficiency": 0.7916666666666666,
+  "distance": 0.03125,
+  "strategy": [
+   3.0,
+   1.5,
+   2.0,
+   3.0
+  ]
+ },
+ {
+  "task": "proportional-limit",
+  "baseline": "independent_pg",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 0.05148816108703613,
+  "exploitability": 2.8460866592361356e-06,
+  "efficiency": 0.7920370619851217,
+  "distance": 0.003636454475828721,
+  "strategy": [
+   2.7906812731450277,
+   1.4000912749117953,
+   1.8698149759059728,
+   2.832369930533278
+  ]
+ },
+ {
+  "task": "proportional-limit",
+  "baseline": "independent_pg",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 0.05387091636657715,
+  "exploitability": 6.5016315805947284e-06,
+  "efficiency": 0.7916039987275134,
+  "distance": 0.005667617193148826,
+  "strategy": [
+   2.846505703158893,
+   1.4163574492225328,
+   1.8693228307412026,
+   2.798292159124975
+  ]
+ },
+ {
+  "task": "proportional-limit",
+  "baseline": "independent_pg",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 0.0549929141998291,
+  "exploitability": 1.667780182586694e-06,
+  "efficiency": 0.79233602995809,
+  "distance": 0.003945665682021075,
+  "strategy": [
+   2.8231524708572326,
+   1.3944130029539368,
+   1.8823677778521273,
+   2.8114709198026437
+  ]
+ },
+ {
+  "task": "location-activsg2000",
+  "baseline": "best_response",
+  "seed": 0,
+  "expected": "location",
+  "seconds": 0.00020313262939453125,
+  "exploitability": 0.0,
+  "distance": 0.0,
+  "efficiency": 1.0,
+  "converged": true,
+  "strategy": [
+   "5361",
+   "5361",
+   "7197"
+  ]
+ },
+ {
+  "task": "location-activsg2000",
+  "baseline": "best_response",
+  "seed": 1,
+  "expected": "location",
+  "seconds": 0.00013589859008789062,
+  "exploitability": 0.0,
+  "distance": 0.0,
+  "efficiency": 1.0,
+  "converged": true,
+  "strategy": [
+   "5361",
+   "5361",
+   "7197"
+  ]
+ },
+ {
+  "task": "location-activsg2000",
+  "baseline": "best_response",
+  "seed": 2,
+  "expected": "location",
+  "seconds": 0.000125885009765625,
+  "exploitability": 0.0,
+  "distance": 0.0,
+  "efficiency": 1.0,
+  "converged": true,
+  "strategy": [
+   "5361",
+   "5361",
+   "7197"
+  ]
+ },
+ {
+  "task": "location-activsg2000",
+  "baseline": "hedge",
+  "seed": 0,
+  "expected": "location",
+  "seconds": 0.07931804656982422,
+  "exploitability": 0.0,
+  "distance": 0.0,
+  "efficiency": 1.0,
+  "strategy": [
+   "5361",
+   "5361",
+   "7197"
+  ]
+ },
+ {
+  "task": "location-activsg2000",
+  "baseline": "hedge",
+  "seed": 1,
+  "expected": "location",
+  "seconds": 0.07332181930541992,
+  "exploitability": 0.0,
+  "distance": 0.0,
+  "efficiency": 1.0,
+  "strategy": [
+   "5361",
+   "5361",
+   "7197"
+  ]
+ },
+ {
+  "task": "location-activsg2000",
+  "baseline": "hedge",
+  "seed": 2,
+  "expected": "location",
+  "seconds": 0.07194280624389648,
+  "exploitability": 0.0,
+  "distance": 0.0,
+  "efficiency": 1.0,
+  "strategy": [
+   "7197",
+   "5361",
+   "5361"
+  ]
+ },
+ {
+  "task": "location-activsg2000",
+  "baseline": "independent_pg",
+  "seed": 0,
+  "expected": "location",
+  "seconds": 0.24082088470458984,
+  "exploitability": 0.0,
+  "distance": 0.0,
+  "efficiency": 1.0,
+  "strategy": [
+   "7197",
+   "5361",
+   "5361"
+  ]
+ },
+ {
+  "task": "location-activsg2000",
+  "baseline": "independent_pg",
+  "seed": 1,
+  "expected": "location",
+  "seconds": 0.23990178108215332,
+  "exploitability": 0.0,
+  "distance": 0.0,
+  "efficiency": 1.0,
+  "strategy": [
+   "7197",
+   "5361",
+   "5361"
+  ]
+ },
+ {
+  "task": "location-activsg2000",
+  "baseline": "independent_pg",
+  "seed": 2,
+  "expected": "location",
+  "seconds": 0.2431960105895996,
+  "exploitability": 0.0,
+  "distance": 0.0,
+  "efficiency": 1.0,
+  "strategy": [
+   "5361",
+   "5361",
+   "7197"
+  ]
+ },
+ {
+  "task": "generation-credit",
+  "baseline": "best_response",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 0.7089512348175049,
+  "exploitability": 8.145529078240819e-10,
+  "distance": 4.6366106282157045e-10,
+  "converged": true,
+  "strategy": [
+   [
+    53.98233555710525,
+    10.796467111421052
+   ],
+   [
+    29.302683429143137,
+    5.860536685828627
+   ],
+   [
+    29.302683253229773,
+    5.860536650645955
+   ]
+  ]
+ },
+ {
+  "task": "generation-credit",
+  "baseline": "best_response",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 0.709831953048706,
+  "exploitability": 8.134637862085147e-10,
+  "distance": 4.336611396590816e-09,
+  "converged": true,
+  "strategy": [
+   [
+    53.98233557381461,
+    10.796467114762923
+   ],
+   [
+    29.30268342589338,
+    5.860536685178676
+   ],
+   [
+    29.30268303699008,
+    5.860536366760717
+   ]
+  ]
+ },
+ {
+  "task": "generation-credit",
+  "baseline": "best_response",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 0.47719502449035645,
+  "exploitability": 8.145529078240819e-10,
+  "distance": 1.9312201045985132e-09,
+  "converged": true,
+  "strategy": [
+   [
+    53.98233555710525,
+    10.796467111421052
+   ],
+   [
+    29.30268312010653,
+    5.860536475299295
+   ],
+   [
+    29.30268331054869,
+    5.860536662109738
+   ]
+  ]
+ },
+ {
+  "task": "generation-credit",
+  "baseline": "hedge",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 20.7188138961792,
+  "exploitability": 0.014508320835213277,
+  "distance": 0.04965212670229115,
+  "strategy": [
+   [
+    59.39447876067494,
+    11.878895752134989
+   ],
+   [
+    29.302683225345458,
+    5.860536645069092
+   ],
+   [
+    27.14610432692305,
+    2.7146104326923055
+   ]
+  ]
+ },
+ {
+  "task": "generation-credit",
+  "baseline": "hedge",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 20.63287591934204,
+  "exploitability": 0.014508320835213277,
+  "distance": 0.04965212670229115,
+  "strategy": [
+   [
+    59.39447876067494,
+    11.878895752134989
+   ],
+   [
+    29.302683225345458,
+    5.860536645069092
+   ],
+   [
+    27.14610432692305,
+    2.7146104326923055
+   ]
+  ]
+ },
+ {
+  "task": "generation-credit",
+  "baseline": "hedge",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 20.74137592315674,
+  "exploitability": 0.014508320835213277,
+  "distance": 0.04965212670229115,
+  "strategy": [
+   [
+    59.39447876067494,
+    11.878895752134989
+   ],
+   [
+    29.302683225345458,
+    5.860536645069092
+   ],
+   [
+    27.14610432692305,
+    2.7146104326923055
+   ]
+  ]
+ },
+ {
+  "task": "generation-credit",
+  "baseline": "independent_pg",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 5.089004039764404,
+  "exploitability": 0.0013971567699174801,
+  "distance": 0.008302305401475942,
+  "strategy": [
+   [
+    53.318939218887415,
+    9.724189225347216
+   ],
+   [
+    28.83836600553819,
+    5.130697169410513
+   ],
+   [
+    29.029207973843068,
+    5.417567077170607
+   ]
+  ]
+ },
+ {
+  "task": "generation-credit",
+  "baseline": "independent_pg",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 5.082428932189941,
+  "exploitability": 0.0014433313870195917,
+  "distance": 0.00850645780938716,
+  "strategy": [
+   [
+    53.021564108316916,
+    9.280757165314602
+   ],
+   [
+    28.9318669849288,
+    5.268482192662203
+   ],
+   [
+    29.020909737637876,
+    5.4040088772597645
+   ]
+  ]
+ },
+ {
+  "task": "generation-credit",
+  "baseline": "independent_pg",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 5.078054189682007,
+  "exploitability": 0.001268947370099099,
+  "distance": 0.007067645659265725,
+  "strategy": [
+   [
+    53.32417494669037,
+    9.736595118780379
+   ],
+   [
+    28.909879941624904,
+    5.239233699361732
+   ],
+   [
+    29.023147114572645,
+    5.4052740140815985
+   ]
+  ]
+ },
+ {
+  "task": "generation-gross-cycle",
+  "baseline": "best_response",
+  "seed": 0,
+  "expected": "none",
+  "seconds": 4.7614428997039795,
+  "exploitability": 0.02592592490376347,
+  "converged": false,
+  "strategy": [
+   [
+    1.333333346943138,
+    8.352703224385248e-09
+   ],
+   [
+    1.7777777780001864,
+    0.8888888890000932
+   ],
+   [
+    1.7777777782542574,
+    0.8888888891271287
+   ]
+  ]
+ },
+ {
+  "task": "generation-gross-cycle",
+  "baseline": "best_response",
+  "seed": 1,
+  "expected": "none",
+  "seconds": 4.73616886138916,
+  "exploitability": 0.01922657854043689,
+  "converged": false,
+  "strategy": [
+   [
+    1.6790123452300902,
+    0.0
+   ],
+   [
+    1.5308642005610098,
+    1.7846569203936813e-08
+   ],
+   [
+    1.3333333452732288,
+    4.0339459341867215e-08
+   ]
+  ]
+ },
+ {
+  "task": "generation-gross-cycle",
+  "baseline": "best_response",
+  "seed": 2,
+  "expected": "none",
+  "seconds": 4.718353033065796,
+  "exploitability": 0.02592592490376347,
+  "converged": false,
+  "strategy": [
+   [
+    1.333333346943138,
+    8.352703224385248e-09
+   ],
+   [
+    1.7777777780001864,
+    0.8888888890000932
+   ],
+   [
+    1.7777777782542574,
+    0.8888888891271287
+   ]
+  ]
+ },
+ {
+  "task": "generation-gross-cycle",
+  "baseline": "hedge",
+  "seed": 0,
+  "expected": "none",
+  "seconds": 18.05233097076416,
+  "exploitability": 0.030030487840822906,
+  "strategy": [
+   [
+    2.0,
+    1.0
+   ],
+   [
+    1.3333333333333333,
+    0.0
+   ],
+   [
+    1.5,
+    0.0
+   ]
+  ]
+ },
+ {
+  "task": "generation-gross-cycle",
+  "baseline": "hedge",
+  "seed": 1,
+  "expected": "none",
+  "seconds": 17.772817850112915,
+  "exploitability": 0.030030487840822906,
+  "strategy": [
+   [
+    2.0,
+    1.0
+   ],
+   [
+    1.3333333333333333,
+    0.0
+   ],
+   [
+    1.5,
+    0.0
+   ]
+  ]
+ },
+ {
+  "task": "generation-gross-cycle",
+  "baseline": "hedge",
+  "seed": 2,
+  "expected": "none",
+  "seconds": 17.93259620666504,
+  "exploitability": 0.030030487840822906,
+  "strategy": [
+   [
+    2.0,
+    1.0
+   ],
+   [
+    1.3333333333333333,
+    0.0
+   ],
+   [
+    1.5,
+    0.0
+   ]
+  ]
+ },
+ {
+  "task": "generation-gross-cycle",
+  "baseline": "independent_pg",
+  "seed": 0,
+  "expected": "none",
+  "seconds": 4.613492965698242,
+  "exploitability": 0.018688289708991807,
+  "strategy": [
+   [
+    1.5460823200295337,
+    0.01016642550045935
+   ],
+   [
+    1.5456129464152206,
+    0.3104680815570841
+   ],
+   [
+    1.5453516768268596,
+    0.7098409733277024
+   ]
+  ]
+ },
+ {
+  "task": "generation-gross-cycle",
+  "baseline": "independent_pg",
+  "seed": 1,
+  "expected": "none",
+  "seconds": 4.666682720184326,
+  "exploitability": 0.019896304713464,
+  "strategy": [
+   [
+    1.5334179030539212,
+    0.011537990738518165
+   ],
+   [
+    1.5330132586281677,
+    0.22634438436522744
+   ],
+   [
+    1.5328286553534636,
+    0.715250304339022
+   ]
+  ]
+ },
+ {
+  "task": "generation-gross-cycle",
+  "baseline": "independent_pg",
+  "seed": 2,
+  "expected": "none",
+  "seconds": 4.566928148269653,
+  "exploitability": 0.02047839893515961,
+  "strategy": [
+   [
+    1.534901812030807,
+    0.010320310860264173
+   ],
+   [
+    1.5343481429113255,
+    0.21117499399448958
+   ],
+   [
+    1.5343465187892915,
+    0.7339691440463666
+   ]
+  ]
+ },
+ {
+  "task": "nonfirm-two-tier",
+  "baseline": "best_response",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 1.1887660026550293,
+  "exploitability": 0.0,
+  "distance": 0.0,
+  "converged": true,
+  "strategy": [
+   [
+    46.78469054297682,
+    28.070814325786184
+   ],
+   [
+    25.39565879529939,
+    15.237395277179624
+   ],
+   [
+    25.39565879529939,
+    15.237395277179624
+   ]
+  ]
+ },
+ {
+  "task": "nonfirm-two-tier",
+  "baseline": "best_response",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 1.171665906906128,
+  "exploitability": 0.0,
+  "distance": 0.0,
+  "converged": true,
+  "strategy": [
+   [
+    46.78469054297682,
+    28.070814325786184
+   ],
+   [
+    25.39565879529939,
+    15.237395277179624
+   ],
+   [
+    25.39565879529939,
+    15.237395277179624
+   ]
+  ]
+ },
+ {
+  "task": "nonfirm-two-tier",
+  "baseline": "best_response",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 1.2263329029083252,
+  "exploitability": 0.0,
+  "distance": 0.0,
+  "converged": true,
+  "strategy": [
+   [
+    46.78469054297682,
+    28.070814325786184
+   ],
+   [
+    25.39565879529939,
+    15.237395277179624
+   ],
+   [
+    25.39565879529939,
+    15.237395277179624
+   ]
+  ]
+ },
+ {
+  "task": "nonfirm-two-tier",
+  "baseline": "hedge",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 32.728079080581665,
+  "exploitability": 0.1420789906696024,
+  "distance": 0.520350551228216,
+  "strategy": [
+   [
+    12.868803731479572,
+    82.36034388146926
+   ],
+   [
+    25.395658795299397,
+    0.0
+   ],
+   [
+    23.526623749999978,
+    30.114078399999972
+   ]
+  ]
+ },
+ {
+  "task": "nonfirm-two-tier",
+  "baseline": "hedge",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 32.27260375022888,
+  "exploitability": 0.1420789906696024,
+  "distance": 0.520350551228216,
+  "strategy": [
+   [
+    12.868803731479572,
+    82.36034388146926
+   ],
+   [
+    25.395658795299397,
+    0.0
+   ],
+   [
+    23.526623749999978,
+    30.114078399999972
+   ]
+  ]
+ },
+ {
+  "task": "nonfirm-two-tier",
+  "baseline": "hedge",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 32.413686990737915,
+  "exploitability": 0.1420789906696024,
+  "distance": 0.520350551228216,
+  "strategy": [
+   [
+    12.868803731479572,
+    82.36034388146926
+   ],
+   [
+    25.395658795299397,
+    0.0
+   ],
+   [
+    23.526623749999978,
+    30.114078399999972
+   ]
+  ]
+ },
+ {
+  "task": "nonfirm-two-tier",
+  "baseline": "independent_pg",
+  "seed": 0,
+  "expected": "unique",
+  "seconds": 8.903578996658325,
+  "exploitability": 0.002452688763553817,
+  "distance": 0.010516719681171013,
+  "strategy": [
+   [
+    45.70198973116899,
+    29.243428137941684
+   ],
+   [
+    25.411315887668838,
+    15.25117496666948
+   ],
+   [
+    25.41109687952478,
+    15.253113365180736
+   ]
+  ]
+ },
+ {
+  "task": "nonfirm-two-tier",
+  "baseline": "independent_pg",
+  "seed": 1,
+  "expected": "unique",
+  "seconds": 8.920655012130737,
+  "exploitability": 0.0004831520690371336,
+  "distance": 0.0008531805622632036,
+  "strategy": [
+   [
+    46.69685523735059,
+    28.23908376157724
+   ],
+   [
+    25.41149650155778,
+    15.250402215190254
+   ],
+   [
+    25.41214565414164,
+    15.253145109411129
+   ]
+  ]
+ },
+ {
+  "task": "nonfirm-two-tier",
+  "baseline": "independent_pg",
+  "seed": 2,
+  "expected": "unique",
+  "seconds": 8.958719253540039,
+  "exploitability": 0.0003306648834596051,
+  "distance": 4.1180529397235e-06,
+  "strategy": [
+   [
+    46.78426658765653,
+    28.1322287830618
+   ],
+   [
+    25.409609353419505,
+    15.251083794610887
+   ],
+   [
+    25.413099931277156,
+    15.251071854403827
+   ]
+  ]
+ }
+]

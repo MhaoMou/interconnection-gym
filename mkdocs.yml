@@ -1,0 +1,23 @@
+site_name: interconnection-gym
+site_description: Batch interconnection of large loads as a multi-agent game
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle: {icon: material/brightness-7, name: Dark mode}
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle: {icon: material/brightness-4, name: Light mode}
+nav:
+  - Home: index.md
+  - Model and theory: theory.md
+  - Comparing rules: operators.md
+  - Regions from a network: networks.md
+  - Environments and benchmarks: researchers.md
+  - Data and licenses: data.md
+  - Development: development.md
+markdown_extensions:
+  - tables
+  - admonition
+  - toc: {permalink: true}

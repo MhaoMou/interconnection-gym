@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "interconnection-gym"
+version = "1.0.0rc1"
+description = "Batch interconnection of large loads as a multi-agent game: allocation rules, fees, equilibrium oracles, and RL environments"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Minghao Mou" }]
+keywords = ["power systems", "interconnection", "game theory", "multi-agent reinforcement learning",
+            "data centers", "pettingzoo", "gymnasium"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+]
+
+[project.optional-dependencies]
+envs = [
+    "gymnasium>=0.29",
+    "pettingzoo>=1.24",
+]
+test = [
+    "pytest>=8",
+]
+dev = [
+    "ruff>=0.6",
+    "build>=1.0",
+    "mkdocs-material>=9.5,<10",
+]
+
+[project.scripts]
+icgym-export = "icgym.cli:main"
+icgym-compare = "icgym.cli:compare_main"
+icgym-bench = "icgym.benchmarks:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+icgym = ["data/*/*.json", "data/*/*/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["B905"]   # zip() without strict=: lengths are checked where it matters

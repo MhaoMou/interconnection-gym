@@ -1,0 +1,53 @@
+{
+ "format": "icgym.region.v1",
+ "icgym_version": "0.1.0",
+ "A": [
+  [
+   1.0,
+   0.0
+  ],
+  [
+   0.00014232962198197104,
+   0.9999999898711394
+  ]
+ ],
+ "b": [
+  154.70000000000124,
+  440.3827423308642
+ ],
+ "limit_names": [
+  "limit_0",
+  "limit_1"
+ ],
+ "applicant_names": [
+  "bus_2042",
+  "bus_4166"
+ ],
+ "metadata": {
+  "buses": [
+   "2042",
+   "4166"
+  ],
+  "periods": "all",
+  "n_periods": 120,
+  "source": "activsg2000_representative_v1",
+  "source_sha256": "81802bb65570a19ed63a68e66073e0a2e9a5dbc6a420d01c7364f997371c99df",
+  "method": "per-period support-function projection; positive parts (non-firm counterflow)",
+  "tolerance": 1e-07,
+  "has_counterflow": false
+ },
+ "signed_A": [
+  [
+   1.0,
+   -0.0
+  ],
+  [
+   0.00014232962198197104,
+   0.9999999898711394
+  ]
+ ],
+ "signed_b": [
+  154.70000000000124,
+  440.3827423308642
+ ]
+}

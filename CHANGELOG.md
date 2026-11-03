@@ -1,0 +1,29 @@
+# Changelog
+
+## 1.0.0rc1 (2026-11-03)
+
+This is the first release candidate.
+
+- **Core:**
+  - regions, and the uniform, proportional, and utilitarian rules, with a
+    minimum allocation and a cut order;
+  - per-MW, flat, and deposit fees;
+  - the batch request game, best responses, and exploitability.
+- **Theory oracles:**
+  - the max-min fair equilibrium and the flat-fee band;
+  - the proportional rule's request inflation;
+  - the price-of-anarchy bound.
+- **Extensions:** location game; on-site generation and storage under the
+  gross and crediting rules; firm and non-firm service.
+- **Networks:** an exact batch-region exporter (`icgym-export`) and the
+  implicit `DCOPFRegion`.
+- **Data:**
+  - ACTIVSg2000 catalogs, with reference results;
+  - IEEE 14-bus regions built locally from the public case file
+    (`icgym.datasets`), not redistributed.
+- **Environments:**
+  - PettingZoo environments for requests, locations, and devices;
+  - a Gymnasium single-learner environment;
+  - a vectorized environment with batched allocation.
+- **Tools:** rule comparison (`icgym-compare`), with a text, JSON, or HTML
+  report; benchmark tasks and baselines (`icgym-bench`).
