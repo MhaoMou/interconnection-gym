@@ -26,7 +26,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        # macOS runners are not available to this repository (jobs are cancelled
+        # before starting); the full suite is run on macOS before each release.
+        os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
