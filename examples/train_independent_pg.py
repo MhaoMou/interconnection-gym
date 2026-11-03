@@ -5,7 +5,7 @@ updated from its rewards only) in ``BatchRequestParallelEnv``. The theory says
 the unique equilibrium is the max-min fair point ``w``; the script prints how
 close the learners get and how much any of them could still gain by deviating.
 
-    pip install "interconnection-gym[envs]"
+    pip install "interconnection-gym[envs] @ git+https://github.com/MhaoMou/interconnection-gym"
     python examples/train_independent_pg.py [iterations]
 """
 

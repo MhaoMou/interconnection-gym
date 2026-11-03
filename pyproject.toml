@@ -28,6 +28,11 @@ dependencies = [
     "scipy>=1.10",
 ]
 
+[project.urls]
+Homepage = "https://mhaomou.github.io/interconnection-gym/"
+Repository = "https://github.com/MhaoMou/interconnection-gym"
+Documentation = "https://github.com/MhaoMou/interconnection-gym/tree/main/docs"
+
 [project.optional-dependencies]
 envs = [
     "gymnasium>=0.29",

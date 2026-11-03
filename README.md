@@ -1,5 +1,9 @@
 # interconnection-gym
 
+[![CI](https://github.com/MhaoMou/interconnection-gym/actions/workflows/ci.yml/badge.svg)](https://github.com/MhaoMou/interconnection-gym/actions/workflows/ci.yml)
+
+Project page: <https://mhaomou.github.io/interconnection-gym/>
+
 A simulator, a set of reinforcement-learning environments, and a benchmark
 for the **batch interconnection of large loads** (data centers and similar
 loads). Applicants request grid capacity, the operator splits what the network
@@ -14,8 +18,9 @@ it requested.
 ## Install
 
 ```bash
-pip install interconnection-gym            # core: numpy and scipy only
-pip install "interconnection-gym[envs]"    # adds the Gymnasium and PettingZoo environments
+# not yet on PyPI: install from GitHub
+pip install "interconnection-gym @ git+https://github.com/MhaoMou/interconnection-gym"          # core: numpy and scipy
+pip install "interconnection-gym[envs] @ git+https://github.com/MhaoMou/interconnection-gym"    # adds Gymnasium and PettingZoo
 ```
 
 ## Quick start

@@ -43,7 +43,8 @@ OBSERVATION_MODES = ("private", "public")
 
 def _require_envs():
     if gym is None:
-        raise ImportError("install the 'envs' extra: pip install interconnection-gym[envs]")
+        raise ImportError("install the 'envs' extra: pip install "
+                          "'interconnection-gym[envs] @ git+https://github.com/MhaoMou/interconnection-gym'")
 
 
 class BatchRequestParallelEnv(ParallelEnv):

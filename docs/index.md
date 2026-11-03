@@ -15,8 +15,9 @@ it requested.
 ## Install
 
 ```bash
-pip install interconnection-gym            # core: numpy and scipy only
-pip install "interconnection-gym[envs]"    # adds the Gymnasium and PettingZoo environments
+# not yet on PyPI: install from GitHub
+pip install "interconnection-gym @ git+https://github.com/MhaoMou/interconnection-gym"          # core: numpy and scipy
+pip install "interconnection-gym[envs] @ git+https://github.com/MhaoMou/interconnection-gym"    # adds Gymnasium and PettingZoo
 ```
 
 Python 3.10 or newer.
