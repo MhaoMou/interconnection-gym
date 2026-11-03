@@ -30,6 +30,13 @@ install.
    `src/icgym/__init__.py`.
 3. Regenerate `benchmarks/RESULTS.md` (`icgym-bench --seeds 3 --json
    benchmarks/results.json`) if the engine or the baselines changed.
-4. For double-blind review, build the anonymized copy with
-   `python scripts/make_anonymous.py OUT_DIR` and check its report.
+4. For double-blind review, either:
+   - mirror the repository on <https://anonymous.4open.science>, listing the
+     author's name, GitHub handle, and institution as terms to anonymize; or
+   - build a local copy with
+     `python scripts/make_anonymous.py OUT_DIR --name <github-handle> --name <institution>`
+     and check its report.
+
+   The author names in `pyproject.toml` are always included. The GitHub
+   handle must be given, because it appears in links.
 5. Tag the release.
