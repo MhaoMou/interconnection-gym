@@ -53,7 +53,7 @@ def test_activsg2000_location_game_matches_the_paper():
     eq = game.pure_equilibria()
     assert sorted(eq) == sorted(set(itertools.permutations(("7197", "5361", "5361"))))
     assert game.improving_moves() == {"moves": 1617, "violations": 0}
-    rounds = [game.dynamics(start)[2] for start in game.profiles()]
+    rounds = [game.best_response_dynamics(start)[2] for start in game.profiles()]
     assert None not in rounds and max(rounds) == 2
 
 
@@ -68,7 +68,7 @@ def test_improving_moves_raise_sorted_shares(seed):
     assert game.improving_moves()["violations"] == 0
     assert game.pure_equilibria()
     for start in game.profiles():
-        prof, path, rounds = game.dynamics(start)
+        prof, path, rounds = game.best_response_dynamics(start)
         assert rounds is not None and game.is_equilibrium(prof)
         pots = [game.potential(p) for p in path]
         for p0, p1 in zip(pots, pots[1:]):
@@ -101,5 +101,5 @@ def test_location_env_api():
     acts = {a: menu.index(b) for a, b in zip(env.possible_agents, ("7197", "5361", "5361"))}
     _, rew, _, _, info = env.step(acts)
     first = info[env.possible_agents[0]]
-    assert first["is_equilibrium"] and first["gains"].max() == 0
+    assert first["is_equilibrium"] and first["exploitability"].max() == 0
     assert np.isclose(rew[env.possible_agents[1]] * env.game.scale, first["shares"][1])

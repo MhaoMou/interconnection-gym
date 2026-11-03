@@ -36,7 +36,7 @@ def flat_fee_example() -> Region:
     return Region.single_limit([1.0, 1.5], 3.0, applicant_names=("site_1", "site_2"))
 
 
-def fairness_worst_case(n: int, R: float, k: int | None = None, eps: float = 1e-3) -> Region:
+def poa_worst_case(n: int, R: float, k: int | None = None, eps: float = 1e-3) -> Region:
     """Regions that approach the price-of-anarchy bound ``(1+nR)^2/(4nR)``.
 
     ``k`` applicants with hosting capacity ``R`` barely load a shared limit

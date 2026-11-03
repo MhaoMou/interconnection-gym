@@ -12,7 +12,7 @@ On a downward-closed network region (counterflow treated as non-firm) it has a
 strong pure equilibrium and every sequence of improving moves is finite: each
 move raises the sorted vector of shares lexicographically (paper: location
 game). :meth:`LocationGame.improving_moves` and
-:meth:`LocationGame.dynamics` check both on any instance.
+:meth:`LocationGame.best_response_dynamics` check both on any instance.
 
 A move counts as improving if it raises the mover's share by more than
 ``tol`` (default 1e-4, in the region's units, MW for network regions), which
@@ -151,13 +151,22 @@ class LocationGame:
     def payoffs(self, profile) -> np.ndarray:
         return self.margin * self.shares(profile)
 
+    def payoff(self, i: int, x, profile) -> float:
+        """Applicant ``i``'s payoff when it takes placement ``x`` and the others keep ``profile``."""
+        prof = list(profile)
+        prof[i] = x
+        return float(self.payoffs(prof)[i])
+
     def potential(self, profile) -> np.ndarray:
         """Shares sorted in increasing order; every improving move raises it lexicographically."""
         return np.sort(self.shares(profile))
 
     # ------------------------------------------------------------ equilibrium
     def best_response(self, i: int, profile, tol: float = 1e-4) -> tuple[Placement, float]:
-        """Best placement of applicant ``i`` against the others (keeps its own on ties)."""
+        """Best placement of applicant ``i`` against the others, and its payoff.
+
+        Keeps the current placement unless another raises the share by more than ``tol``.
+        """
         profile = list(profile)
         best_p, best_w = profile[i], self.shares(profile)[i]
         for p in self.menus[i]:
@@ -168,15 +177,15 @@ class LocationGame:
             w = self.shares(new)[i]
             if w > best_w + tol:
                 best_p, best_w = p, w
-        return best_p, float(best_w)
+        return best_p, float(self.margin[i] * best_w)
 
-    def gains(self, profile, tol: float = 1e-4) -> np.ndarray:
-        """Each applicant's share gain from its best move (0 at a pure equilibrium)."""
-        base = self.shares(profile)
+    def exploitability(self, profile, tol: float = 1e-4) -> np.ndarray:
+        """Each applicant's payoff gain from its best move (0 at a pure equilibrium)."""
+        base = self.payoffs(profile)
         return np.array([max(0.0, self.best_response(i, profile, tol)[1] - base[i]) for i in range(self.n)])
 
     def is_equilibrium(self, profile, tol: float = 1e-4) -> bool:
-        return bool(np.all(self.gains(profile, tol) <= tol))
+        return bool(np.all(self.exploitability(profile, tol) <= tol * np.max(np.abs(self.margin))))
 
     def profiles(self):
         return itertools.product(*self.menus)
@@ -207,7 +216,7 @@ class LocationGame:
                         violations += int(nz.size == 0 or d[nz[0]] < 0)
         return {"moves": moves, "violations": violations}
 
-    def dynamics(self, start, max_rounds: int = 100, order: str = "cyclic", seed: int | None = None,
+    def best_response_dynamics(self, start, max_rounds: int = 100, order: str = "cyclic", seed: int | None = None,
                  tol: float = 1e-4):
         """Best-response dynamics in rounds; returns ``(profile, path, rounds)``.
 

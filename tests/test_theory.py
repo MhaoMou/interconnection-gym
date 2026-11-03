@@ -12,9 +12,9 @@ from icgym import (
     Region,
     UniformRule,
     UtilitarianRule,
-    fairness_worst_case,
     max_min_fair_point,
     poa_bound,
+    poa_worst_case,
     predicted_equilibrium,
     price_of_anarchy,
     random_region,
@@ -154,7 +154,7 @@ def test_poa_bound_holds_on_random_regions():
 
 @pytest.mark.parametrize("n,R", [(3, 1.0), (2, 1.5), (5, 3.0)])
 def test_poa_bound_is_approached(n, R):
-    region = fairness_worst_case(n, R, eps=1e-6)
+    region = poa_worst_case(n, R, eps=1e-6)
     poa = price_of_anarchy(region, max_min_fair_point(region))
     k = int(round((n * R - 1) / (2 * R)))
     assert np.isclose(poa, (n - k) * (k * R + 1) / n, rtol=1e-4)

@@ -129,7 +129,7 @@ class _DeviceAdapter:
     def __init__(self, game: TwoPartGame, request_cap: float = 2.0):
         self.game, self.cap = game, request_cap
         self.n = game.n
-        self.h = np.array([game.hosting(i) for i in range(self.n)])
+        self.h = np.array([game.hosting_capacity(i) for i in range(self.n)])
         self.pred = game.predicted_equilibrium()
 
     def to_strategy(self, a):
@@ -141,15 +141,8 @@ class _DeviceAdapter:
         return np.array([self.game.payoffs(self.to_strategy(a)) for a in A]) / (self.game.value * self.h)
 
     def best_response_play(self, rng, rounds=20):
-        X = self.to_strategy(rng.random((self.n, 2)))
-        self.converged = False
-        for _ in range(rounds):
-            prev = X.copy()
-            for i in range(self.n):
-                X[i] = self.game.best_response(i, X, grid=60, second_grid=6)[0]
-            if np.allclose(X, prev, atol=1e-6 * self.h.max()):
-                self.converged = True
-                break
+        X, _, k = self.game.best_response_dynamics(self.to_strategy(rng.random((self.n, 2))), max_rounds=rounds)
+        self.converged = k is not None
         return X
 
     def _served(self, X):
@@ -159,8 +152,8 @@ class _DeviceAdapter:
     def evaluate(self, X):
         gain = self.game.exploitability(X, grid=80, second_grid=8) / (self.game.value * self.h)
         out = {"exploitability": float(gain.max())}
-        if self.pred.get("known") and "X" in self.pred:
-            gap = np.abs(self._served(X) - self._served(self.pred["X"])) / self.h[:, None]
+        if self.pred.get("known") and "strategies" in self.pred:
+            gap = np.abs(self._served(X) - self._served(self.pred["strategies"])) / self.h[:, None]
             out["distance"] = float(gap.max())
         return out
 
@@ -185,12 +178,12 @@ class _LocationAdapter:
 
     def best_response_play(self, rng, rounds=50):
         start = tuple(m[rng.integers(len(m))] for m in self.game.menus)
-        prof, _, k = self.game.dynamics(start, max_rounds=rounds)
+        prof, _, k = self.game.best_response_dynamics(start, max_rounds=rounds)
         self.converged = k is not None
         return prof
 
     def evaluate(self, prof):
-        gains = self.game.gains(prof) / self.game.scale
+        gains = self.game.exploitability(prof) / (np.max(np.abs(self.game.margin)) * self.game.scale)
         return {"exploitability": float(gains.max()), "distance": 0.0 if self.game.is_equilibrium(prof) else 1.0,
                 "efficiency": float(self.game.shares(prof).sum() / self.best_total)}
 

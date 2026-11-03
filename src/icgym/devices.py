@@ -109,7 +109,7 @@ class TwoPartGame:
 
     n: int
 
-    def payoffs(self, X) -> np.ndarray:  # pragma: no cover - abstract
+    def payoffs(self, strategies) -> np.ndarray:  # pragma: no cover - abstract
         raise NotImplementedError
 
     def _upper(self, i: int, X) -> float:  # pragma: no cover - abstract
@@ -118,19 +118,20 @@ class TwoPartGame:
     def _second_options(self, i: int, x1: float, X, grid: int) -> np.ndarray:  # pragma: no cover - abstract
         raise NotImplementedError
 
-    def payoff(self, i: int, x, X) -> float:
-        Y = np.array(X, dtype=float)
+    def payoff(self, i: int, x, strategies) -> float:
+        """Applicant ``i``'s payoff when it plays ``x`` and the others play ``strategies``."""
+        Y = np.array(strategies, dtype=float)
         Y[i] = x
         return float(self.payoffs(Y)[i])
 
-    def best_response(self, i: int, X, grid: int = 120, second_grid: int = 11,
+    def best_response(self, i: int, strategies, grid: int = 120, second_grid: int = 11,
                       fix_second: bool = False) -> tuple[np.ndarray, float]:
-        """Best ``(request, second)`` of applicant ``i`` against ``X``, by grid search and refinement.
+        """Best ``(request, second)`` of applicant ``i`` against ``strategies``, by grid search and refinement.
 
         With ``fix_second=True`` only the request moves (the second part stays
         at ``X[i, 1]``).
         """
-        X = np.asarray(X, dtype=float)
+        X = np.asarray(strategies, dtype=float)
         upper = self._upper(i, X)
         cands = []
         for x1 in np.append(np.linspace(0.0, upper, grid), X[i, 0]):
@@ -184,27 +185,56 @@ class TwoPartGame:
     def _second_from_fraction(self, i, x1, frac, X):
         return frac
 
-    def hosting(self, i: int) -> float:
+    def hosting_capacity(self, i: int) -> float:
         """Scale of applicant ``i``'s request (its hosting capacity, with its own device at the cap)."""
         return self._upper(i, np.zeros((self.n, 2))) / 2.0
 
     def strategy_from_action(self, i: int, action, request_cap: float = 2.0) -> np.ndarray:
         """Map an action in ``[0, 1]^2`` to ``(request, second part)``.
 
-        The request is ``action[0] * request_cap * hosting(i)``; the second
+        The request is ``action[0] * request_cap * hosting_capacity(i)``; the second
         part is ``action[1]`` times its own cap (``gamma r_i`` for a device,
         ``gamma`` for a curtailable fraction, ``request_cap`` times the
         off-peak hosting capacity for a non-firm request).
         """
         a = np.clip(np.asarray(action, dtype=float).reshape(2), 0.0, 1.0)
-        x1 = a[0] * request_cap * self.hosting(i)
+        x1 = a[0] * request_cap * self.hosting_capacity(i)
         return np.array([x1, self._second_from_action(i, x1, a[1], request_cap)])
 
     def _second_from_action(self, i, x1, a1, request_cap):  # pragma: no cover - abstract
         raise NotImplementedError
 
-    def exploitability(self, X, fix_second: bool = False, **kw) -> np.ndarray:
+    def best_response_dynamics(self, strategies, max_rounds: int = 30, tol: float | None = None,
+                               gain_tol: float | None = None, grid: int = 60, second_grid: int = 6):
+        """Applicants best-respond in turn, each once per round.
+
+        Returns ``(strategies, history, rounds)``, where ``rounds`` counts the
+        rounds with a change, or ``None`` if the profile did not settle within
+        ``max_rounds``. A round settles only if no strategy moved by more than
+        ``tol`` and no applicant could gain more than ``gain_tol`` (defaults
+        scale with the hosting capacities), as in
+        :meth:`icgym.BatchGame.best_response_dynamics`.
+        """
+        X = np.array(strategies, dtype=float)
+        scale = max(self.hosting_capacity(i) for i in range(self.n))
+        tol = 1e-6 * scale if tol is None else tol
+        gain_tol = 1e-9 * scale if gain_tol is None else gain_tol
+        history = [X.copy()]
+        for k in range(1, max_rounds + 1):
+            prev, gain = X.copy(), 0.0
+            for i in range(self.n):
+                before = self.payoff(i, X[i], X)
+                x, v = self.best_response(i, X, grid=grid, second_grid=second_grid)
+                gain = max(gain, v - before)
+                X[i] = x
+            history.append(X.copy())
+            if np.allclose(X, prev, atol=tol, rtol=0) and gain <= gain_tol:
+                return X, history, k - 1
+        return X, history, None
+
+    def exploitability(self, strategies, fix_second: bool = False, **kw) -> np.ndarray:
         """Each applicant's gain from its best unilateral deviation (0 at an equilibrium)."""
+        X = np.asarray(strategies, dtype=float)
         base = self.payoffs(X)
         return np.array([max(0.0, self.best_response(i, X, fix_second=fix_second, **kw)[1] - base[i])
                          for i in range(self.n)])
@@ -268,16 +298,16 @@ class GenerationGame(TwoPartGame):
             X[:, 1] = np.minimum(X[:, 1], self.device.gamma * X[:, 0])
         return X
 
-    def allocate(self, X) -> np.ndarray:
-        X = self._clip(X)
+    def allocate(self, strategies) -> np.ndarray:
+        X = self._clip(strategies)
         r, shave = X[:, 0], self.device.theta * X[:, 1]
         if self.rule == "credit":
             net = np.maximum(r - shave, 0.0)
             return UniformRule(beta=self.beta).allocate(self.region, net) + np.where(r > TOL, shave, 0.0)
         return _cut_loop(lambda act: water_fill_offset(self.region, r, shave, act), r, self.beta)
 
-    def payoffs(self, X) -> np.ndarray:
-        X = self._clip(X)
+    def payoffs(self, strategies) -> np.ndarray:
+        X = self._clip(strategies)
         s = self.allocate(X)
         return self.value * s - self.kappa * X[:, 0] - self.device.cost * X[:, 1]
 
@@ -312,19 +342,20 @@ class GenerationGame(TwoPartGame):
             w = max_min_fair_point(self.region)
             if mu > 0:
                 r = w / (1 - d.theta * d.gamma)
-                return {"known": True, "kind": "unique", "X": np.column_stack([r, d.gamma * r]), "served": r}
+                return {"known": True, "kind": "unique", "strategies": np.column_stack([r, d.gamma * r]), "served": r}
             if mu < 0:
-                return {"known": True, "kind": "unique", "X": np.column_stack([w, np.zeros(self.n)]), "served": w}
+                return {"known": True, "kind": "unique", "strategies": np.column_stack([w, np.zeros(self.n)]),
+                        "served": w}
             return {"known": False, "reason": "zero margin"}
         if self.region.m != 1:
             return {"known": False, "reason": "gross rule: regimes are known for a single limit"}
         a, b = self.region.A[0], self.region.b[0]
         if mu < 0:
             w = np.full(self.n, b / a.sum())
-            return {"known": True, "kind": "unique", "X": np.column_stack([w, np.zeros(self.n)]), "served": w}
+            return {"known": True, "kind": "unique", "strategies": np.column_stack([w, np.zeros(self.n)]), "served": w}
         if np.all(self.scrapper_margins() > 0):
             w = np.full(self.n, b / ((1 - d.theta * d.gamma) * a.sum()))
-            return {"known": True, "kind": "unique", "X": np.column_stack([w, d.gamma * w]), "served": w}
+            return {"known": True, "kind": "unique", "strategies": np.column_stack([w, d.gamma * w]), "served": w}
         if mu > 0:
             return {"known": True, "kind": "none", "reason": "mu+ > 0 > mu-_i for some i: no pure equilibrium"}
         return {"known": False, "reason": "zero margin"}
@@ -399,9 +430,9 @@ class NonFirmGame(TwoPartGame):
             A, b = np.vstack([A, self.offpeak.A]), np.concatenate([b, self.offpeak.b])
         return Region(A, b)
 
-    def allocate(self, X):
+    def allocate(self, strategies):
         """Served loads: ``(firm, non-firm)`` per applicant for the two-tier rule, ``s`` for the gross rule."""
-        X = self._clip(X)
+        X = self._clip(strategies)
         if self.rule == "two_tier":
             sf = water_fill(self.peak, X[:, 0])
             R = self._residual(sf)
@@ -409,8 +440,8 @@ class NonFirmGame(TwoPartGame):
             return np.column_stack([sf, sn])
         return water_fill(self.gross_region(X[:, 1]), X[:, 0])
 
-    def payoffs(self, X) -> np.ndarray:
-        X = self._clip(X)
+    def payoffs(self, strategies) -> np.ndarray:
+        X = self._clip(strategies)
         s = self.allocate(X)
         if self.rule == "two_tier":
             return self.value * s[:, 0] + self.offpeak_value * s[:, 1] - self.kappa * X.sum(axis=1)
@@ -427,7 +458,7 @@ class NonFirmGame(TwoPartGame):
                 wn = max_min_fair_point(R)
             else:
                 wn = np.zeros(self.n)
-            return {"known": True, "kind": "tiers", "X": np.column_stack([wp, wn])}
+            return {"known": True, "kind": "tiers", "strategies": np.column_stack([wp, wn])}
         if self.peak.m != 1 or (self.offpeak is not None and self.offpeak.m != 1):
             return {"known": False, "reason": "gross rule: regimes are known for single limits"}
         a, bp = self.peak.A[0], self.peak.b[0]
@@ -436,11 +467,11 @@ class NonFirmGame(TwoPartGame):
         bo = np.inf if self.offpeak is None else self.offpeak.b[0] * a.sum() / self.offpeak.A[0].sum()
         if Vo < k:
             w = np.full(self.n, bp / a.sum())
-            return {"known": True, "kind": "unique", "X": np.column_stack([w, np.zeros(self.n)])}
+            return {"known": True, "kind": "unique", "strategies": np.column_stack([w, np.zeros(self.n)])}
         if np.all((V - k) * a / a.sum() > Vp):
             phi = min(self.gamma, 1 - bp / bo)
             w = np.full(self.n, bp / ((1 - phi) * a.sum()))
-            return {"known": True, "kind": "unique", "X": np.column_stack([w, np.full(self.n, phi)])}
+            return {"known": True, "kind": "unique", "strategies": np.column_stack([w, np.full(self.n, phi)])}
         return {"known": True, "kind": "none", "reason": "V^o > kappa and (V - kappa) a_i / sum a < V^p for some i"}
 
     def _extra_candidates(self, i, X):
@@ -473,5 +504,5 @@ class NonFirmGame(TwoPartGame):
     def _second_from_action(self, i, x1, a1, request_cap):
         if self.rule == "gross":
             return a1 * self.gamma
-        cap = self.offpeak.hosting_capacities()[i] if self.offpeak is not None else self.hosting(i)
+        cap = self.offpeak.hosting_capacities()[i] if self.offpeak is not None else self.hosting_capacity(i)
         return a1 * request_cap * cap

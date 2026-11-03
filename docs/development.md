@@ -22,6 +22,18 @@ depend on them (`pythonpath = ["src"]`), and
 `chflags nohidden .venv/lib/*/site-packages/*.pth` restores the editable
 install.
 
+## Publishing the documentation
+
+The site at <https://mhaomou.github.io/interconnection-gym/docs/> is built by
+the personal website's deploy workflow (`MhaoMou/MhaoMou.github.io`). That
+workflow checks out this repository and runs `mkdocs build --strict` into the
+site. It runs on every push to the website. After changing the docs here,
+refresh them with:
+
+```bash
+gh workflow run deploy.yml -R MhaoMou/MhaoMou.github.io
+```
+
 ## Release checklist
 
 1. Run the tests, lint, and docs build. Run `python -m build` and check the

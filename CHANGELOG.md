@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased (toward 1.0.0)
+
+- **API frozen:** `tests/test_api.py` pins the public names, so a rename
+  fails the tests.
+- **One vocabulary for every game:** `payoffs`, `payoff`, `best_response`,
+  `exploitability`, `best_response_dynamics`, and `predicted_equilibrium`.
+- **Renamed:**
+  - `LocationGame.gains` to `exploitability` (now in payoff units) and
+    `LocationGame.dynamics` to `best_response_dynamics`;
+  - `LocationGame.best_response` now returns the payoff, not the share;
+  - `TwoPartGame.hosting` to `hosting_capacity`;
+  - the two-part games' `X` argument and prediction key to `strategies`;
+  - `fairness_worst_case` to `poa_worst_case`;
+  - `LocationParallelEnv(compute_gains=)` to `compute_exploitability`, and
+    `info["gains"]` to `info["exploitability"]`.
+- **Added:** `BatchGame.predicted_equilibrium()`, `LocationGame.payoff`, and
+  `TwoPartGame.best_response_dynamics`; `AllocationRule` and `Fee` are
+  exported.
+- **Docs:** a generated API reference, published at
+  <https://mhaomou.github.io/interconnection-gym/docs/>.
+
 ## 1.0.0rc1 (2026-11-03)
 
 This is the first release candidate.

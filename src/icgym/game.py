@@ -45,6 +45,12 @@ class BatchGame:
         r[i] = x
         return float(self.payoffs(r)[i])
 
+    def predicted_equilibrium(self) -> dict:
+        """The theory's answer for this game (see :func:`icgym.predicted_equilibrium`)."""
+        from .oracles import predicted_equilibrium
+
+        return predicted_equilibrium(self)
+
     # ---------------------------------------------------------------- best responses
     def _exact_best_response(self, i: int, requests) -> float | None:
         """Closed form for the uniform rule without minimum allocation (paper: best-response dynamics)."""

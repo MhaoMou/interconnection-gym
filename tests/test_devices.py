@@ -13,7 +13,7 @@ def gen(cost, rule="gross", region=LIMIT, **kw):
 
 
 def scale(game):
-    return float(np.max(np.abs(game.payoffs(game.predicted_equilibrium()["X"])))) + 1.0
+    return float(np.max(np.abs(game.payoffs(game.predicted_equilibrium()["strategies"])))) + 1.0
 
 
 # ------------------------------------------------------------------ water-filling with offsets
@@ -57,18 +57,18 @@ def test_three_regimes_on_one_limit():
     none = gen(0.35)                       # mu+ < 0: no generation
     assert none.builder_margin() < 0 and none.no_carry()
     p = none.predicted_equilibrium()
-    assert np.allclose(p["X"][:, 1], 0) and np.allclose(p["served"], 6.0 / 4.5)
-    assert none.exploitability(p["X"]).max() < 1e-6
+    assert np.allclose(p["strategies"][:, 1], 0) and np.allclose(p["served"], 6.0 / 4.5)
+    assert none.exploitability(p["strategies"]).max() < 1e-6
 
     cap = gen(0.03)                        # mu-_i > 0 for all: everyone at the cap
     assert np.all(cap.scrapper_margins() > 0)
     p = cap.predicted_equilibrium()
-    assert np.allclose(p["served"], 6.0 / (0.75 * 4.5)) and np.allclose(cap.allocate(p["X"]), p["served"])
-    assert cap.exploitability(p["X"]).max() < 1e-6
+    assert np.allclose(p["served"], 6.0 / (0.75 * 4.5)) and np.allclose(cap.allocate(p["strategies"]), p["served"])
+    assert cap.exploitability(p["strategies"]).max() < 1e-6
 
     mid = gen(0.15)                        # mu+ > 0 > mu-_i: no pure equilibrium
     assert mid.predicted_equilibrium()["kind"] == "none"
-    for X in (none.predicted_equilibrium()["X"], cap.predicted_equilibrium()["X"]):
+    for X in (none.predicted_equilibrium()["strategies"], cap.predicted_equilibrium()["strategies"]):
         assert mid.exploitability(X).max() > 1e-3
 
 
@@ -78,8 +78,8 @@ def test_crediting_rule_has_the_predicted_equilibrium(seed, cost):
     """Part 3: crediting generators to their owners, on any region."""
     game = gen(cost, rule="credit", region=random_region(3, 3, seed=seed))
     p = game.predicted_equilibrium()
-    assert p["known"] and np.allclose(game.allocate(p["X"]), p["X"][:, 0])
-    assert game.exploitability(p["X"]).max() < 1e-6 * scale(game)
+    assert p["known"] and np.allclose(game.allocate(p["strategies"]), p["strategies"][:, 0])
+    assert game.exploitability(p["strategies"]).max() < 1e-6 * scale(game)
 
 
 def test_storage_device():
@@ -87,8 +87,8 @@ def test_storage_device():
     assert np.isclose(bat.theta, 0.5) and np.isclose(bat.cost, 0.03)
     game = GenerationGame(random_region(3, 2, seed=5), bat, rule="credit")
     p = game.predicted_equilibrium()
-    assert np.all(p["X"][:, 1] > 0)
-    assert game.exploitability(p["X"]).max() < 1e-6 * scale(game)
+    assert np.all(p["strategies"][:, 1] > 0)
+    assert game.exploitability(p["strategies"]).max() < 1e-6 * scale(game)
 
 
 # ------------------------------------------------------------------ non-firm service
@@ -99,9 +99,9 @@ def test_two_tier_rule(seed, peak_value):
     off = Region(peak.A, peak.b * 1.6)
     game = NonFirmGame(peak, off, value=1.0, peak_value=peak_value, kappa=0.4, rule="two_tier")
     p = game.predicted_equilibrium()
-    assert np.allclose(game.allocate(p["X"]), p["X"])      # every request served in full
-    assert (p["X"][:, 1].sum() > 0) == (game.offpeak_value > game.kappa)
-    assert game.exploitability(p["X"]).max() < 1e-6 * scale(game)
+    assert np.allclose(game.allocate(p["strategies"]), p["strategies"])      # every request served in full
+    assert (p["strategies"][:, 1].sum() > 0) == (game.offpeak_value > game.kappa)
+    assert game.exploitability(p["strategies"]).max() < 1e-6 * scale(game)
 
 
 def test_gross_nonfirm_regimes():
@@ -109,12 +109,13 @@ def test_gross_nonfirm_regimes():
     make = lambda vp: NonFirmGame(LIMIT, off, value=1.0, peak_value=vp, kappa=0.4, rule="gross", gamma=0.5)  # noqa: E731
     none, cut, mid = make(0.7), make(0.1), make(0.3)
     p = none.predicted_equilibrium()
-    assert np.allclose(p["X"][:, 1], 0) and none.exploitability(p["X"]).max() < 1e-6
+    assert np.allclose(p["strategies"][:, 1], 0) and none.exploitability(p["strategies"]).max() < 1e-6
     p = cut.predicted_equilibrium()
-    assert np.allclose(p["X"][:, 1], 1 / 3) and np.allclose(cut.allocate(p["X"]), p["X"][:, 0])
-    assert cut.exploitability(p["X"]).max() < 1e-6
+    assert np.allclose(p["strategies"][:, 1], 1 / 3)
+    assert np.allclose(cut.allocate(p["strategies"]), p["strategies"][:, 0])
+    assert cut.exploitability(p["strategies"]).max() < 1e-6
     assert mid.predicted_equilibrium()["kind"] == "none"
-    for X in (none.predicted_equilibrium()["X"], cut.predicted_equilibrium()["X"]):
+    for X in (none.predicted_equilibrium()["strategies"], cut.predicted_equilibrium()["strategies"]):
         assert mid.exploitability(X).max() > 1e-3
 
 
@@ -135,7 +136,7 @@ def test_device_env(make):
     parallel_api_test(DeviceParallelEnv(game, rounds=3, observation="public"), num_cycles=6)
     env = DeviceParallelEnv(game, rounds=1, normalize_rewards=False)
     env.reset()
-    X = env._prediction["X"]
+    X = env._prediction["strategies"]
     acts = {}
     for i, a in enumerate(env.possible_agents):      # invert the action map at the prediction
         x1 = X[i, 0] / (env.request_cap * env._h[i])

@@ -82,13 +82,16 @@ run("uniform-ieee14", "independent_pg", seed=0)      # exploitability, distance 
 
 ## Documentation
 
-The `docs/` folder (built with `mkdocs build`) has these pages:
+The documentation, including the API reference, is at
+<https://mhaomou.github.io/interconnection-gym/docs/>. Its source is the
+`docs/` folder, built with `mkdocs build`, and it has these pages:
 - [model and theory](docs/theory.md);
 - [comparing rules](docs/operators.md);
 - [regions from a network](docs/networks.md);
 - [environments and benchmarks](docs/researchers.md);
 - [data and licenses](docs/data.md);
-- [development](docs/development.md).
+- [development](docs/development.md);
+- [API reference](docs/api/index.md).
 
 Runnable examples are in [examples/](examples/).
 

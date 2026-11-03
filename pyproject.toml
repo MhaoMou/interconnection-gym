@@ -31,7 +31,7 @@ dependencies = [
 [project.urls]
 Homepage = "https://mhaomou.github.io/interconnection-gym/"
 Repository = "https://github.com/MhaoMou/interconnection-gym"
-Documentation = "https://github.com/MhaoMou/interconnection-gym/tree/main/docs"
+Documentation = "https://mhaomou.github.io/interconnection-gym/docs/"
 
 [project.optional-dependencies]
 envs = [
@@ -45,6 +45,7 @@ dev = [
     "ruff>=0.6",
     "build>=1.0",
     "mkdocs-material>=9.5,<10",
+    "mkdocstrings[python]>=0.26",
 ]
 
 [project.scripts]

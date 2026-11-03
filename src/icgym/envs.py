@@ -200,17 +200,17 @@ class LocationParallelEnv(ParallelEnv):
     applicant's last placement (zeros before the first step), each applicant's
     last share over ``game.scale``, and the fraction of the episode elapsed.
     ``info`` carries the shares, whether the profile is a pure equilibrium,
-    and each applicant's gain from its best move (``compute_gains=True``).
+    and each applicant's gain from its best move (``compute_exploitability=True``).
     """
 
     metadata = {"name": "icgym_location_v0", "render_modes": []}
 
-    def __init__(self, game, rounds: int = 1, normalize_rewards: bool = True, compute_gains: bool = True):
+    def __init__(self, game, rounds: int = 1, normalize_rewards: bool = True, compute_exploitability: bool = True):
         _require_envs()
         self.game = game
         self.rounds = rounds
         self.normalize_rewards = normalize_rewards
-        self.compute_gains = compute_gains
+        self.compute_exploitability = compute_exploitability
         self.possible_agents = list(game.names)
         self.agents: list[str] = []
         self._sizes = [len(m) for m in game.menus]
@@ -238,11 +238,11 @@ class LocationParallelEnv(ParallelEnv):
     def _info(self):
         out = {}
         prof = self.profile
-        gains = self.game.gains(prof) if (self.compute_gains and prof is not None) else None
+        gains = self.game.exploitability(prof) if (self.compute_exploitability and prof is not None) else None
         for a in self.possible_agents:
             info = {"profile": prof, "shares": self._w.copy()}
             if gains is not None:
-                info["gains"] = gains.copy()
+                info["exploitability"] = gains.copy()
                 info["is_equilibrium"] = bool(np.all(gains <= 1e-6))
             out[a] = info
         return out
@@ -284,8 +284,8 @@ class DeviceParallelEnv(ParallelEnv):
     battery) and :class:`icgym.devices.NonFirmGame` (firm and non-firm
     requests, or a request and a curtailable fraction). Actions are in
     ``[0, 1]^2``, mapped by ``game.strategy_from_action``; rewards are payoffs
-    divided by ``V * hosting(i)``. Observation: the applicant's last strategy
-    and served load over ``hosting(i)``, every applicant's with
+    divided by ``V * hosting_capacity(i)``. Observation: the applicant's last strategy
+    and served load over ``hosting_capacity(i)``, every applicant's with
     ``observation='public'``, and the fraction of the episode elapsed. ``info``
     carries the strategies, served loads, the theory's prediction, and
     (``compute_exploitability=True``) each applicant's gain from deviating.
@@ -304,7 +304,7 @@ class DeviceParallelEnv(ParallelEnv):
         self.compute_exploitability = compute_exploitability
         self.possible_agents = [f"applicant_{i}" for i in range(game.n)]
         self.agents: list[str] = []
-        self._h = np.array([game.hosting(i) for i in range(game.n)])
+        self._h = np.array([game.hosting_capacity(i) for i in range(game.n)])
         self._prediction = game.predicted_equilibrium()
         self._width = 4 if getattr(game, "rule", "") == "two_tier" else 3
         dim = (self._width if observation == "private" else self._width * game.n) + 1

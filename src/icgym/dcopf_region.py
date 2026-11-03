@@ -69,7 +69,7 @@ class DCOPFRegion:
         return self._problems[t]
 
     # ------------------------------------------------------------------ the LP
-    def optimize(self, c, extra: _Extra) -> tuple[float, np.ndarray] | None:
+    def _optimize(self, c, extra: _Extra) -> tuple[float, np.ndarray] | None:
         """``max c'y`` over ``y = (x, t)`` with ``extra`` and every period feasible.
 
         Returns ``(value, x)``, or ``None`` if infeasible.
@@ -186,13 +186,13 @@ class DCOPFRegion:
                 c = np.zeros(self.n + 1)
                 c[i] = 1.0
                 fixed = {j: 0.0 for j in range(self.n) if j != i}
-                h.append(self.optimize(c, _Extra(bounds=self._bounds(fixed)))[0])
+                h.append(self._optimize(c, _Extra(bounds=self._bounds(fixed)))[0])
             self._h = np.array(h)
         return self._h
 
     def max_total(self) -> tuple[float, np.ndarray]:
         c = np.concatenate([np.ones(self.n), [0.0]])
-        val, x = self.optimize(c, _Extra(bounds=self._bounds({})))
+        val, x = self._optimize(c, _Extra(bounds=self._bounds({})))
         return val, x
 
     def contains(self, s, tol: float = 1e-6) -> bool:
@@ -205,7 +205,7 @@ class DCOPFRegion:
         A_eq = np.zeros((self.n, self.n + 1))
         A_eq[:, :self.n] = np.eye(self.n)
         A_eq[:, -1] = -r
-        res = self.optimize(np.concatenate([np.zeros(self.n), [1.0]]),
+        res = self._optimize(np.concatenate([np.zeros(self.n), [1.0]]),
                             _Extra(A_eq=A_eq, b_eq=np.zeros(self.n), bounds=self._bounds({}, 1.0)))
         return 0.0 if res is None else min(1.0, res[0])
 
@@ -213,7 +213,7 @@ class DCOPFRegion:
         """Largest total with ``s <= r``; ties broken by the largest smallest fraction."""
         r = np.asarray(r, dtype=float)
         bounds = [(0.0, float(u)) for u in r] + [(0.0, 0.0)]
-        total, x = self.optimize(np.concatenate([np.ones(self.n), [0.0]]), _Extra(bounds=bounds))
+        total, x = self._optimize(np.concatenate([np.ones(self.n), [0.0]]), _Extra(bounds=bounds))
         idx = np.where(r > TOL)[0]
         if idx.size == 0:
             return np.zeros(self.n)
@@ -222,7 +222,7 @@ class DCOPFRegion:
         A[np.arange(idx.size), -1] = r[idx]
         A[-1, :self.n] = -1.0
         b = np.concatenate([np.zeros(idx.size), [-(total - 1e-7 * max(1.0, total))]])
-        res = self.optimize(np.concatenate([np.zeros(self.n), [1.0]]),
+        res = self._optimize(np.concatenate([np.zeros(self.n), [1.0]]),
                             _Extra(A=A, b=b, bounds=[(0.0, float(u)) for u in r] + [(0.0, 1.0)]))
         return x if res is None else res[1]
 
@@ -243,7 +243,7 @@ class DCOPFRegion:
             A_eq = np.zeros((idx.size, n + 1))
             A_eq[np.arange(idx.size), idx] = 1.0
             A_eq[:, -1] = -lam[idx]
-            res = self.optimize(np.concatenate([np.zeros(n), [1.0]]),
+            res = self._optimize(np.concatenate([np.zeros(n), [1.0]]),
                                 _Extra(A_eq=A_eq, b_eq=np.zeros(idx.size),
                                        bounds=self._bounds(fixed, cap if np.isfinite(cap) else None)))
             if res is None:
@@ -257,7 +257,7 @@ class DCOPFRegion:
                 c = np.zeros(n + 1)
                 c[i] = 1.0
                 others = {j: float(s[j]) for j in range(n) if j != i}
-                own = self.optimize(c, _Extra(bounds=self._bounds(others)))
+                own = self._optimize(c, _Extra(bounds=self._bounds(others)))
                 if own is None or own[0] <= s[i] + 1e-6 * scale:
                     stop[i] = True
             if not stop.any():

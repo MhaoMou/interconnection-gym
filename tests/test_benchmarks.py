@@ -8,7 +8,7 @@ def test_every_task_builds_and_scores_its_prediction():
         ad = adapter(task.make())
         if task.expected in ("unique", "band"):
             p = ad.pred
-            X = p.get("X", p.get("requests", p.get("low")))
+            X = p.get("strategies", p.get("requests", p.get("low")))
             m = ad.evaluate(X)
             assert m["exploitability"] < 1e-4, name
             assert m.get("distance", 0.0) < 1e-9, name
