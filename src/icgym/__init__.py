@@ -15,6 +15,7 @@ from .network_devices import DeviceRegion, NetworkGenerationGame, NetworkNonFirm
 from .oracles import poa_bound, predicted_equilibrium, price_of_anarchy, proportional_inflation, stages
 from .prices import EnergyCharge, FeeSum, lmp
 from .region import Region
+from .rule_design import Objective, equilibrium_response
 from .rules import AllocationRule, ProportionalRule, UniformRule, UtilitarianRule
 from .scenarios import (
                         activsg2000,
@@ -29,11 +30,17 @@ from .scenarios import (
                         reference,
                         save_region,
 )
+from .sequential import Applicant, ArrivalProcess, SequentialBatchGame
 from .waterfill import max_min_fair_point, water_fill
 
 __version__ = "1.0.0rc1"
 
 __all__ = [
+    "Applicant",
+    "ArrivalProcess",
+    "Objective",
+    "SequentialBatchGame",
+    "equilibrium_response",
     "DeviceRegion",
     "EnergyCharge",
     "FeeSum",

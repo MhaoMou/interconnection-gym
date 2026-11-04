@@ -37,6 +37,32 @@ obs, info = env.reset(seed=0)
 environment. They reach the max-min fair point within 0.05% in about three
 seconds on a laptop.
 
+## Sequential batches
+
+Real queues run batch after batch. `icgym.sequential.SequentialBatchGame` puts
+a queue on a region over buses:
+- applicants arrive at random buses with a size they need and a value per MW;
+- each batch, the rule serves the queue on the capacity left by earlier
+  batches, minus any load growth;
+- served MW connect for good, and unserved need waits for the next batch.
+
+`simulate(policy)` runs a whole queue and reports the MW connected, the MW
+requested but not served, and the batches to connect. Its ground truth is the
+batch-by-batch equilibrium: water-filling the residual region, capped at each
+applicant's remaining need (`myopic_equilibrium`).
+`icgym.sequential.SequentialBatchEnv` is the PettingZoo version, with agents
+that arrive and leave. Agent slots never used by an arrival are not
+terminated, which PettingZoo's API test reports as a warning.
+
+## The operator as an agent
+
+`icgym.rule_design.OperatorEnv` (Gymnasium) lets an operator choose the rule,
+its minimum allocation, and the commitment for a batch on a sampled network.
+Applicants answer at equilibrium (`equilibrium_response`): the theory's
+equilibrium where known, and best-response dynamics otherwise. The operator is
+rewarded by an `Objective`: efficiency, minus waste and unfairness.
+`SequentialOperatorEnv` does the same before every batch of a queue.
+
 ## Benchmark tasks
 
 | Task | Answer |

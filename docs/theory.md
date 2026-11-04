@@ -12,6 +12,8 @@
 | Location choice | `LocationGame`: placements (buses, or splits across buses) from finite menus; shares come from the request-stage equilibrium |
 | On-site generation and storage | `GenerationGame` with a `Device` (a generator with a run-hour budget, or a battery); `rule='gross'` shares the freed room, `'credit'` credits it to the owner |
 | Devices on the network | `DeviceRegion`: generators within a daily run-hour budget, batteries, and curtailable or non-firm load, dispatched hour by hour on the real load shape. `NetworkGenerationGame` and `NetworkNonFirmGame` play the games on it; `grid_equilibria` finds their pure equilibria on strategy grids. |
+| Sequential batches | `SequentialBatchGame`: arrivals, residual capacity after earlier batches, load growth, and waiting; ground truth batch by batch. |
+| The operator's choice | `OperatorEnv`, `SequentialOperatorEnv`: the operator picks the rule, `beta`, and `kappa`; applicants answer at equilibrium (`equilibrium_response`). |
 | Energy prices | `EnergyCharge` charges served energy at the LMP of the applicant's bus (`lmp`); combine with a commitment by `FeeSum`. The uniform rule's `w` is then an epsilon-equilibrium. |
 | Non-firm service | `NonFirmGame`: `rule='two_tier'` (firm and non-firm requests) or `'gross'` (a curtailable fraction of one common level) |
 

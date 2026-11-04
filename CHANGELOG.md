@@ -26,6 +26,11 @@
 - **Energy at the LMP:** `lmp`, `EnergyCharge`, and `FeeSum`; the uniform
   rule's prediction is marked as an epsilon-equilibrium when prices are
   charged.
+- **Sequential batches:** `SequentialBatchGame` (arrivals, residual capacity,
+  growth, waiting, batch-by-batch equilibrium) and the PettingZoo
+  `SequentialBatchEnv`.
+- **The operator as an agent:** `OperatorEnv` and `SequentialOperatorEnv`
+  (Gymnasium), `equilibrium_response`, and `Objective`.
 - **Grid equilibria:** `grid_equilibria` enumerates pure equilibria on
   strategy grids, for any game. `BatchGame.best_response` takes an
   `interval`, and `DCNetwork` reads generator costs.

@@ -15,6 +15,7 @@ EXPORTS = {
     "poa_bound", "poa_worst_case", "predicted_equilibrium", "price_of_anarchy", "proportional_inflation",
     "random_region", "reference", "save_region", "stages", "water_fill", "water_fill_offset",
     "DeviceRegion", "EnergyCharge", "FeeSum", "NetworkGenerationGame", "NetworkNonFirmGame", "grid_equilibria", "lmp",
+    "Applicant", "ArrivalProcess", "Objective", "SequentialBatchGame", "equilibrium_response",
 }
 
 # every game answers the same questions with the same method names
