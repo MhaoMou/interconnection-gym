@@ -14,6 +14,7 @@ import numpy as np
 
 
 class Fee(ABC):
+    """What applicants pay: subclasses define ``cost(requests, served)``."""
     @abstractmethod
     def cost(self, requests: np.ndarray, served: np.ndarray) -> np.ndarray: ...
 
@@ -29,9 +30,11 @@ class PerMWCommitment(Fee):
     kappa: float
 
     def cost(self, requests, served):
+        """``kappa`` per MW requested, served or not."""
         return self.kappa * np.asarray(requests, dtype=float)
 
     def marginal_request_cost(self):
+        """``kappa``."""
         return self.kappa
 
 
@@ -42,6 +45,7 @@ class FlatFee(Fee):
     fee: float
 
     def cost(self, requests, served):
+        """``fee`` for each applicant with a positive request."""
         r = np.asarray(requests, dtype=float)
         return np.where(r > 0, self.fee, 0.0)
 
@@ -61,10 +65,12 @@ class SecurityDeposit(Fee):
     study_fee: float = 0.0
 
     def cost(self, requests, served):
+        """Carrying cost on the request, forfeit on unserved MW, and the study fee."""
         r = np.asarray(requests, dtype=float)
         s = np.asarray(served, dtype=float)
         flat = np.where(r > 0, self.study_fee, 0.0)
         return flat + self.per_mw * (self.carrying_rate * r + self.forfeit_rate * np.maximum(r - s, 0.0))
 
     def marginal_request_cost(self):
+        """The carrying cost per MW requested."""
         return self.per_mw * self.carrying_rate

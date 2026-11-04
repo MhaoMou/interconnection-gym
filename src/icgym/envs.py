@@ -79,9 +79,11 @@ class BatchRequestParallelEnv(ParallelEnv):
         self._act_space = spaces.Box(0.0, 1.0, shape=(1,), dtype=np.float32)
 
     def observation_space(self, agent):
+        """PettingZoo API: the observation space of ``agent``."""
         return self._obs_space
 
     def action_space(self, agent):
+        """PettingZoo API: the action space of ``agent``."""
         return self._act_space
 
     def _obs(self):
@@ -106,6 +108,7 @@ class BatchRequestParallelEnv(ParallelEnv):
         return out
 
     def reset(self, seed=None, options=None):
+        """PettingZoo API: start an episode; returns observations and infos."""
         self.agents = list(self.possible_agents)
         self._t = 0
         self._r = np.zeros(self.game.n)
@@ -113,11 +116,13 @@ class BatchRequestParallelEnv(ParallelEnv):
         return self._obs(), self._info()
 
     def requests_from_actions(self, actions) -> np.ndarray:
+        """Requests in MW from the agents' actions."""
         frac = np.array([float(np.clip(np.asarray(actions[a]).reshape(-1)[0], 0.0, 1.0))
                          for a in self.possible_agents])
         return frac * self.request_cap * self._h
 
     def step(self, actions):
+        """PettingZoo API: play one batch; returns observations, rewards, terminations, truncations, infos."""
         self._r = self.requests_from_actions(actions)
         self._s = self.game.allocate(self._r)
         pay = self.game.payoffs(self._r, self._s)
@@ -170,12 +175,14 @@ class SingleApplicantEnv(gym.Env if gym is not None else object):
         self.action_space = self.inner.action_space(None)
 
     def reset(self, seed=None, options=None):
+        """Gymnasium API: start an episode."""
         super().reset(seed=seed)
         obs, info = self.inner.reset(seed=seed)
         a = self.inner.possible_agents[self.learner]
         return obs[a], info[a]
 
     def step(self, action):
+        """Gymnasium API: play one batch against the rivals."""
         agents = self.inner.possible_agents
         last = self.inner._r.copy()
         cap = self.inner.request_cap * self.inner._h
@@ -219,9 +226,11 @@ class LocationParallelEnv(ParallelEnv):
         self._act_spaces = {a: spaces.Discrete(k) for a, k in zip(self.possible_agents, self._sizes)}
 
     def observation_space(self, agent):
+        """PettingZoo API: the observation space of ``agent``."""
         return self._obs_space
 
     def action_space(self, agent):
+        """PettingZoo API: the action space of ``agent``."""
         return self._act_spaces[agent]
 
     def _obs(self):
@@ -249,11 +258,13 @@ class LocationParallelEnv(ParallelEnv):
 
     @property
     def profile(self):
+        """The current placement profile, or ``None`` before the first step."""
         if self._choice is None:
             return None
         return tuple(self.game.menus[i][c] for i, c in enumerate(self._choice))
 
     def reset(self, seed=None, options=None):
+        """PettingZoo API: start an episode; returns observations and infos."""
         self.agents = list(self.possible_agents)
         self._t = 0
         self._choice = None
@@ -261,6 +272,7 @@ class LocationParallelEnv(ParallelEnv):
         return self._obs(), self._info()
 
     def step(self, actions):
+        """PettingZoo API: play one batch; returns observations, rewards, terminations, truncations, infos."""
         self._choice = [int(np.asarray(actions[a]).reshape(-1)[0]) for a in self.possible_agents]
         self._w = self.game.shares(self.profile)
         pay = self.game.margin * self._w
@@ -312,9 +324,11 @@ class DeviceParallelEnv(ParallelEnv):
         self._act_space = spaces.Box(0.0, 1.0, shape=(2,), dtype=np.float32)
 
     def observation_space(self, agent):
+        """PettingZoo API: the observation space of ``agent``."""
         return self._obs_space
 
     def action_space(self, agent):
+        """PettingZoo API: the action space of ``agent``."""
         return self._act_space
 
     def _rows(self):
@@ -341,6 +355,7 @@ class DeviceParallelEnv(ParallelEnv):
         return out
 
     def reset(self, seed=None, options=None):
+        """PettingZoo API: start an episode; returns observations and infos."""
         self.agents = list(self.possible_agents)
         self._t = 0
         self._X = np.zeros((self.game.n, 2))
@@ -348,6 +363,7 @@ class DeviceParallelEnv(ParallelEnv):
         return self._obs(), self._info()
 
     def step(self, actions):
+        """PettingZoo API: play one batch; returns observations, rewards, terminations, truncations, infos."""
         self._X = np.array([self.game.strategy_from_action(i, actions[a], self.request_cap)
                             for i, a in enumerate(self.possible_agents)])
         self._s = self.game.allocate(self._X)

@@ -7,10 +7,24 @@ can host among them with an allocation rule, and every applicant pays for what
 it requested.
 
 - **Operators and analysts** can compare allocation rules and fees on their
-  own network before adopting them: [Comparing rules](operators.md).
-- **Researchers** get multi-agent games whose equilibria are known in closed
-  form, so learned behavior is scored against ground truth:
+  own network <span class="hl">before adopting them</span>:
+  [Comparing rules](operators.md).
+- **Researchers** get multi-agent games whose
+  <span class="hl">equilibria are known in closed form</span>, so learned
+  behavior is scored against ground truth:
   [Environments and benchmarks](researchers.md).
+
+## The default game: fixed locations
+
+In the default game (`BatchGame`), <span class="hl">every applicant's location
+is fixed</span>. Applicant `i` sits at a given bus, which is column `i` of the
+batch region, and chooses <span class="hl">only how many megawatts to
+request</span>. The operator's rule then decides how much of each request is
+served. Letting applicants also choose where to connect is a separate game,
+the <span class="hl">location game</span> (`LocationGame`, and
+`LocationParallelEnv` for learning). The other extensions add a second
+decision at the same fixed bus: a generator or battery (`GenerationGame`), or
+a non-firm request (`NonFirmGame`).
 
 ## Install
 

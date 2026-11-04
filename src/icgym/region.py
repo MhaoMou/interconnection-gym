@@ -69,13 +69,16 @@ class Region:
 
     @property
     def n(self) -> int:
+        """Number of applicants (columns of ``A``)."""
         return self.A.shape[1]
 
     @property
     def m(self) -> int:
+        """Number of shared limits (rows of ``A``)."""
         return self.A.shape[0]
 
     def contains(self, s, tol: float = 1e-7) -> bool:
+        """Whether served loads ``s`` lie in the region, within ``tol``."""
         s = np.asarray(s, dtype=float)
         return bool(np.all(s >= -tol) and np.all(self.A @ s <= self.b + tol))
 

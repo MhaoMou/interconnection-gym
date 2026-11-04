@@ -4,6 +4,7 @@
 
 | Piece | Options |
 |---|---|
+| Locations | **Fixed** in `BatchGame` and its environments: column `i` of the region is applicant `i` at its given bus, and the strategy is the request alone. **Chosen** from a menu of buses (or splits across buses) in `LocationGame`. |
 | Region (what the grid can host) | `Region`: `{s >= 0 : A s <= b}` with `A >= 0` (downward closed). `Region.downward_closed` keeps the positive part of a general polytope, which treats counterflow between new loads as non-firm. `DCOPFRegion` is the exact network region, queried by LPs. |
 | Allocation rule | `UniformRule` (the default; optional fixed `weights`), `ProportionalRule`, `UtilitarianRule`. Each has a minimum allocation `beta` and a cut order (`largest_request` or `largest_loading`). |
 | Fee | `PerMWCommitment`, `FlatFee`, `SecurityDeposit` (carrying cost, forfeit on unserved MW, study fee) |

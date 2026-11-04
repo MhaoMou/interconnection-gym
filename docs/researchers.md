@@ -2,11 +2,17 @@
 
 ## Environments
 
+In every environment except `LocationParallelEnv`, each applicant's bus is
+fixed and given by the game's region; agents choose how much to request (and,
+in `DeviceParallelEnv`, a device or non-firm share). In
+`LocationParallelEnv` agents choose the bus, and the request stage is played
+at its equilibrium.
+
 Install with `pip install "interconnection-gym[envs]"`.
 
 | Class | API | Actions | Game |
 |---|---|---|---|
-| `BatchRequestParallelEnv` | PettingZoo `ParallelEnv` | request, as a fraction of `request_cap * h_i` | `BatchGame` |
+| `BatchRequestParallelEnv` | PettingZoo `ParallelEnv` | request at the applicant's fixed bus, as a fraction of `request_cap * h_i` | `BatchGame` |
 | `SingleApplicantEnv` | Gymnasium `Env` | the learner's request; rivals follow fixed policies | `BatchGame` |
 | `LocationParallelEnv` | PettingZoo `ParallelEnv` | `Discrete`: a placement from the menu | `LocationGame` |
 | `DeviceParallelEnv` | PettingZoo `ParallelEnv` | `[0, 1]^2`: request, plus device size or non-firm request | `GenerationGame`, `NonFirmGame` |

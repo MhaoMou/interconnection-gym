@@ -155,6 +155,7 @@ def format_table(reports: list[RuleReport], applicant_names=None) -> str:
 
 
 def to_json(reports: list[RuleReport]) -> str:
+    """The reports as JSON (non-finite numbers as null)."""
     def clean(v):
         if isinstance(v, float) and not np.isfinite(v):
             return None

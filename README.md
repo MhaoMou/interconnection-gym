@@ -59,7 +59,9 @@ run("uniform-ieee14", "independent_pg", seed=0)      # exploitability, distance 
   - the uniform, proportional, and utilitarian rules, with a minimum
     allocation;
   - per-MW, flat, and deposit fees;
-  - the batch request game.
+  - the batch request game, in which every applicant's bus is fixed and it
+    chooses only its request (letting applicants also choose buses is the
+    location game).
 - **Theory oracles:** the max-min fair equilibrium, the flat-fee band, the
   proportional rule's request inflation, the price-of-anarchy bound, and the
   location, generation, and non-firm results of the accompanying paper.

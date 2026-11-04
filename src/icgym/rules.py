@@ -26,6 +26,7 @@ class AllocationRule(ABC):
     cut_order: str = "largest_request"
 
     def allocate(self, region: Region, requests) -> np.ndarray:
+        """Served loads for ``requests`` on ``region``, with the minimum allocation applied."""
         r = np.asarray(requests, dtype=float).reshape(region.n)
         if np.any(r < 0):
             raise ValueError("requests must be nonnegative")

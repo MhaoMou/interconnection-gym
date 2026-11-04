@@ -82,6 +82,7 @@ def _read(path) -> dict:
 
 
 def load_region(path: str | Path) -> Region:
+    """Read a region written by :func:`save_region` or ``icgym-export``."""
     data = _read(path)
     return Region(np.array(data["A"]), np.array(data["b"]),
                   limit_names=tuple(data["limit_names"]), applicant_names=tuple(data["applicant_names"]))

@@ -189,6 +189,7 @@ class _LocationAdapter:
 
 
 def adapter(game, request_cap: float = 2.0):
+    """The benchmark adapter of a game (batch, two-part, or location)."""
     if isinstance(game, BatchGame):
         return _BatchAdapter(game, request_cap)
     if isinstance(game, (GenerationGame, NonFirmGame)):
@@ -217,6 +218,7 @@ def _assemble(ad, actions):
 
 
 def best_response(ad, rng, iterations=None):
+    """Baseline: best-response dynamics from a random start."""
     return ad.best_response_play(rng)
 
 
@@ -303,6 +305,7 @@ def run(task: str, baseline: str, seed: int = 0, **kw) -> dict:
 
 
 def run_suite(tasks=None, baselines=None, seeds=range(3), progress: bool = False) -> list[dict]:
+    """Run every (task, baseline, seed); returns one result dict per run."""
     out = []
     for task in tasks or list(TASKS):
         for b in baselines or list(BASELINES):

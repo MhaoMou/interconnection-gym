@@ -4,13 +4,17 @@ site_url: https://mhaomou.github.io/interconnection-gym/docs/
 repo_url: https://github.com/MhaoMou/interconnection-gym
 theme:
   name: material
+  font: false            # Latin Modern, served with the docs (stylesheets/extra.css)
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      toggle: {icon: material/brightness-7, name: Dark mode}
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      toggle: {icon: material/brightness-4, name: Light mode}
+    scheme: default
+    primary: custom
+    accent: custom
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+extra_css:
+  - stylesheets/extra.css
 nav:
   - Home: index.md
   - Model and theory: theory.md
@@ -43,7 +47,7 @@ plugins:
             show_root_full_path: true
             members_order: source
             filters: ["!^_"]
-            show_if_no_docstring: true
+            show_if_no_docstring: false
             merge_init_into_class: true
             show_signature_annotations: true
             separate_signature: true

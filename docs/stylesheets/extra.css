@@ -1,0 +1,52 @@
+/* Match the project page (https://mhaomou.github.io/interconnection-gym/):
+   Latin Modern text and code, 20 px body text, the paper's dark blue and red. */
+@font-face { font-family: "Latin Modern Roman"; src: url("../assets/fonts/lmroman10-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Latin Modern Roman"; src: url("../assets/fonts/lmroman10-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Latin Modern Roman"; src: url("../assets/fonts/lmroman10-bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Latin Modern Roman"; src: url("../assets/fonts/lmroman10-bolditalic.woff2") format("woff2"); font-weight: 700; font-style: italic; font-display: swap; }
+@font-face { font-family: "Latin Modern Mono"; src: url("../assets/fonts/lmmono10-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+
+:root {
+  --md-text-font: "Latin Modern Roman";
+  --md-code-font: "Latin Modern Mono";
+  --md-primary-fg-color: #1F4E79;
+  --md-primary-fg-color--light: #3a6b96;
+  --md-primary-fg-color--dark: #163a5a;
+  --md-accent-fg-color: #C0392B;
+  --md-typeset-a-color: #1F4E79;
+  --md-default-fg-color: #1a1a1a;
+  --md-code-bg-color: #f6f6f4;
+}
+body, input { font-family: "Latin Modern Roman", "CMU Serif", Georgia, serif; }
+code, kbd, pre { font-family: "Latin Modern Mono", Menlo, Consolas, monospace; }
+
+/* body text as on the project page */
+.md-typeset { font-size: 20px; line-height: 1.55; }
+.md-typeset h1 { font-size: 40px; font-weight: 700; color: #1a1a1a; letter-spacing: 0; }
+.md-typeset h2 { font-size: 28px; font-weight: 700; color: #1a1a1a; }
+.md-typeset h3 { font-size: 22px; font-weight: 700; }
+.md-typeset h4 { font-size: 20px; font-weight: 700; }
+.md-typeset code { font-size: 0.92em; }
+.md-typeset pre > code { font-size: 16.5px; line-height: 1.45; }
+.md-typeset table:not([class]) { font-size: 18px; }
+.md-typeset table:not([class]) th { font-weight: 700; }
+.md-nav { font-size: 16.5px; }
+.md-nav__title { font-weight: 700; }
+.md-header__title, .md-header__topic { font-size: 20px; font-weight: 700; }
+.md-search__input { font-size: 16px; }
+
+/* API reference: signatures in the code font, object headings in dark blue */
+.md-typeset .doc-heading code { font-size: 0.95em; }
+.md-typeset .doc-signature, .md-typeset .doc-signature code { font-size: 16.5px; }
+.md-typeset h2.doc-heading, .md-typeset h3.doc-heading { color: #1F4E79; }
+.md-typeset .doc-label code { font-size: 12px; }
+
+/* highlighted phrases, as on the project page */
+.md-typeset .hl { color: #1F4E79; font-weight: 700; }
+.md-typeset .hl-red { color: #C0392B; font-weight: 700; }
+
+@media (max-width: 720px) {
+  .md-typeset { font-size: 18px; }
+  .md-typeset h1 { font-size: 32px; }
+  .md-typeset h2 { font-size: 24px; }
+}

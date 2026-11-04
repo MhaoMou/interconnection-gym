@@ -288,6 +288,7 @@ class GenerationGame(TwoPartGame):
 
     @property
     def n(self) -> int:
+        """Number of applicants."""
         return self.region.n
 
     def _clip(self, X):
@@ -299,6 +300,7 @@ class GenerationGame(TwoPartGame):
         return X
 
     def allocate(self, strategies) -> np.ndarray:
+        """Served loads under the game's rule (``gross`` or ``credit``); devices are clipped to the cap."""
         X = self._clip(strategies)
         r, shave = X[:, 0], self.device.theta * X[:, 1]
         if self.rule == "credit":
@@ -307,6 +309,7 @@ class GenerationGame(TwoPartGame):
         return _cut_loop(lambda act: water_fill_offset(self.region, r, shave, act), r, self.beta)
 
     def payoffs(self, strategies) -> np.ndarray:
+        """``V s_i - kappa r_i - cost G_i`` for each applicant."""
         X = self._clip(strategies)
         s = self.allocate(X)
         return self.value * s - self.kappa * X[:, 0] - self.device.cost * X[:, 1]
@@ -331,10 +334,12 @@ class GenerationGame(TwoPartGame):
         return self.device.theta * (self.value - self.kappa) * a / a.sum() - self.device.cost
 
     def no_carry(self) -> bool:
+        """Whether ``theta gamma < 1`` and the no-carry condition hold."""
         d = self.device
         return d.theta * d.gamma < 1 and d.theta * self.value < self.kappa / d.gamma + d.cost
 
     def predicted_equilibrium(self) -> dict:
+        """The theory's equilibrium: any region under crediting, one limit under the gross rule."""
         d, mu = self.device, self.builder_margin()
         if not self.no_carry():
             return {"known": False, "reason": "no-carry condition fails"}
@@ -404,10 +409,12 @@ class NonFirmGame(TwoPartGame):
 
     @property
     def n(self) -> int:
+        """Number of applicants."""
         return self.peak.n
 
     @property
     def offpeak_value(self) -> float:
+        """Value of the load outside the peak periods, ``V - V^p``."""
         return self.value - self.peak_value
 
     def _clip(self, X):
@@ -441,6 +448,7 @@ class NonFirmGame(TwoPartGame):
         return water_fill(self.gross_region(X[:, 1]), X[:, 0])
 
     def payoffs(self, strategies) -> np.ndarray:
+        """Each applicant's payoff under the two-tier or the gross rule."""
         X = self._clip(strategies)
         s = self.allocate(X)
         if self.rule == "two_tier":
@@ -448,6 +456,7 @@ class NonFirmGame(TwoPartGame):
         return self.value * s - self.peak_value * X[:, 1] * s - self.kappa * X[:, 0]
 
     def predicted_equilibrium(self) -> dict:
+        """The theory's equilibrium: any network under the two-tier rule, single limits under the gross rule."""
         V, Vp, Vo, k = self.value, self.peak_value, self.offpeak_value, self.kappa
         if self.rule == "two_tier":
             wp = max_min_fair_point(self.peak)

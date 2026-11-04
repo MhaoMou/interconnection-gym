@@ -30,17 +30,21 @@ class BatchGame:
 
     @property
     def n(self) -> int:
+        """Number of applicants."""
         return self.region.n
 
     def allocate(self, requests) -> np.ndarray:
+        """Served loads under the game's rule."""
         return self.rule.allocate(self.region, requests)
 
     def payoffs(self, requests, served=None) -> np.ndarray:
+        """Each applicant's payoff ``V_i s_i - cost_i(r, s)``; ``served`` skips the allocation."""
         r = np.asarray(requests, dtype=float)
         s = self.allocate(r) if served is None else served
         return self.value * s - self.fee.cost(r, s)
 
     def payoff(self, i: int, x: float, requests) -> float:
+        """Applicant ``i``'s payoff when it requests ``x`` and the others keep ``requests``."""
         r = np.array(requests, dtype=float)
         r[i] = x
         return float(self.payoffs(r)[i])

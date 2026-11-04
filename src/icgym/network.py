@@ -55,6 +55,7 @@ class DCNetwork:
 
     @classmethod
     def from_csv_dir(cls, directory: str | Path, horizon: int | None = None) -> DCNetwork:
+        """Read a DC power-flow scenario folder (bus, branch, generator, demand, and DC-line CSV files)."""
         root = Path(directory)
         bus_rows = _rows(root / "bus.csv")
         buses = [r["bus_id"] for r in bus_rows]
@@ -101,9 +102,11 @@ class DCNetwork:
 
     @property
     def periods(self) -> int:
+        """Number of periods."""
         return self.demand.shape[0]
 
     def period_problem(self, t: int, buses) -> PeriodProblem:
+        """The redispatch problem of period ``t`` with new loads at ``buses``."""
         cols = [self.buses.index(str(b)) for b in buses]
         return PeriodProblem(
             flow_site=self.ptdf[:, cols],
@@ -310,6 +313,7 @@ class ExportedRegion:
 
     @property
     def has_counterflow(self) -> bool:
+        """Whether any exact facet has a negative coefficient (relief between new loads)."""
         return bool(np.any(self.signed_A < -1e-9))
 
 

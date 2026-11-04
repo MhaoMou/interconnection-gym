@@ -120,6 +120,7 @@ class LocationGame:
     # ------------------------------------------------------------------ shares
     @property
     def n(self) -> int:
+        """Number of applicants."""
         return len(self.menus)
 
     @property
@@ -149,6 +150,7 @@ class LocationGame:
         return w
 
     def payoffs(self, profile) -> np.ndarray:
+        """Each applicant's payoff ``margin_i * w_i(profile)``."""
         return self.margin * self.shares(profile)
 
     def payoff(self, i: int, x, profile) -> float:
@@ -185,9 +187,11 @@ class LocationGame:
         return np.array([max(0.0, self.best_response(i, profile, tol)[1] - base[i]) for i in range(self.n)])
 
     def is_equilibrium(self, profile, tol: float = 1e-4) -> bool:
+        """Whether no applicant gains more than ``tol`` (MW of share) by moving."""
         return bool(np.all(self.exploitability(profile, tol) <= tol * np.max(np.abs(self.margin))))
 
     def profiles(self):
+        """Every placement profile (the product of the menus)."""
         return itertools.product(*self.menus)
 
     def pure_equilibria(self, tol: float = 1e-4) -> list[tuple]:

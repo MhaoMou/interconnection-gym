@@ -146,16 +146,19 @@ class VectorBatchRequestEnv:
         return own.astype(np.float32)
 
     def reset(self, seed=None):
+        """Reset every copy; returns observations of shape ``(E, n, obs_dim)``."""
         self._r = np.zeros((self.num_envs, self.n))
         self._s = np.zeros((self.num_envs, self.n))
         self._t = np.zeros(self.num_envs)
         return self._obs()
 
     def requests_from_actions(self, actions) -> np.ndarray:
+        """Requests from actions in ``[0, 1]``, shape ``(E, n)``."""
         a = np.clip(np.asarray(actions, dtype=float).reshape(self.num_envs, self.n), 0.0, 1.0)
         return a * self.request_cap * self._h
 
     def step(self, actions):
+        """Step every copy; returns ``(obs, rewards, done, info)``."""
         R = self.requests_from_actions(actions)
         S = allocate_batch(self.game.rule, self.game.region, R)
         pay = _payoffs(self.game, R, S)

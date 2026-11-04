@@ -61,6 +61,7 @@ class DCOPFRegion:
 
     @property
     def n(self) -> int:
+        """Number of applicants."""
         return len(self.buses)
 
     def _period(self, t: int) -> PeriodProblem:
@@ -180,6 +181,7 @@ class DCOPFRegion:
         return b
 
     def hosting_capacities(self) -> np.ndarray:
+        """Single-bus hosting capacity of each applicant, others served zero."""
         if self._h is None:
             h = []
             for i in range(self.n):
@@ -191,11 +193,13 @@ class DCOPFRegion:
         return self._h
 
     def max_total(self) -> tuple[float, np.ndarray]:
+        """Planner's optimum: the largest total served load and a maximizer."""
         c = np.concatenate([np.ones(self.n), [0.0]])
         val, x = self._optimize(c, _Extra(bounds=self._bounds({})))
         return val, x
 
     def contains(self, s, tol: float = 1e-6) -> bool:
+        """Whether served loads ``s`` are feasible in every period, within ``tol``."""
         s = np.asarray(s, dtype=float)
         return all(self._feasible_lazy(t, s * (1 - tol)) for t in range(self.net.periods))
 
