@@ -188,7 +188,10 @@ class DCOPFRegion:
                 c = np.zeros(self.n + 1)
                 c[i] = 1.0
                 fixed = {j: 0.0 for j in range(self.n) if j != i}
-                h.append(self._optimize(c, _Extra(bounds=self._bounds(fixed)))[0])
+                res = self._optimize(c, _Extra(bounds=self._bounds(fixed)))
+                if res is None:
+                    raise ValueError("the network cannot serve its base load (before any new load)")
+                h.append(res[0])
             self._h = np.array(h)
         return self._h
 

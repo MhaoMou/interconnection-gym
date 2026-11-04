@@ -493,7 +493,9 @@ class NetworkNonFirmGame(TwoPartGame):
         """Region of non-firm loads (served off peak only) with the firm loads fixed."""
         key = tuple(np.round(np.asarray(firm, float), 6))
         if key not in self._regions:
-            net2 = with_added_load(self.net, self.buses, key)
+            # firm loads at their limit leave the binding period marginally infeasible;
+            # back them off by a relative 1e-9 (micro-MW) so the residual region is well defined
+            net2 = with_added_load(self.net, self.buses, np.asarray(firm, float) * (1 - 1e-9))
             self._regions[key] = DeviceRegion(net2, self.buses, load_scale=self._offpeak_scale(self.n),
                                               day_length=self.L)
         return self._regions[key]

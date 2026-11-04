@@ -136,3 +136,22 @@ def test_location_game_on_a_network(net):
         if not ex.has_counterflow:
             assert np.allclose(game.shares(prof), max_min_fair_point(ex.region), atol=1e-4)
     assert game.evaluations == 6           # one per multiset of placements
+
+
+def test_ieee14_first_use_in_parallel(tmp_path, monkeypatch):
+    """Several processes building the 14-bus data at once must not trip over each other."""
+    import multiprocessing as mp
+
+    from icgym.datasets import data_dir
+    src = data_dir() / "ieee14" / "case14.m"
+    ieee14((1, 2))                                   # make sure a verified case file exists to copy
+    monkeypatch.setenv("ICGYM_DATA_DIR", str(tmp_path))
+    (tmp_path / "ieee14").mkdir(parents=True)
+    (tmp_path / "ieee14" / "case14.m").write_bytes(src.read_bytes())
+    with mp.get_context("spawn").Pool(4) as pool:
+        out = pool.map(_first_use, [(13, 14)] * 4)
+    assert all(np.allclose(o, out[0]) for o in out)
+
+
+def _first_use(buses):
+    return max_min_fair_point(ieee14(buses))

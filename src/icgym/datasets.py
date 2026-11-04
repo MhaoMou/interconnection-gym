@@ -24,6 +24,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import sys
 import urllib.request
 from importlib import resources
@@ -75,9 +76,9 @@ def _case_file(case_file, ov, quiet: bool) -> Path:
             except OSError as exc:
                 raise RuntimeError(f"could not download {spec['url']} ({exc}); download it yourself and pass "
                                    "case_file= or set ICGYM_IEEE14_CASE") from exc
-            tmp = path.with_suffix(".part")
+            tmp = path.with_name(f"{path.name}.{os.getpid()}.part")   # one temp file per process
             tmp.write_bytes(data)
-            tmp.replace(path)
+            tmp.replace(path)                                          # atomic; the last writer wins
     digest = _sha256(path)
     if digest != spec["sha256"]:
         raise ValueError(f"{path} has SHA-256 {digest}, expected {spec['sha256']} ({spec['source']})")
@@ -97,6 +98,8 @@ def fetch_ieee14(case_file: str | Path | None = None, quiet: bool = False) -> Pa
         return out
     text = _case_file(case_file, ov, quiet).read_text()
     bus, gen, branch = _matrix(text, "bus"), _matrix(text, "gen"), _matrix(text, "branch")
+    final = out
+    out = out.with_name(f"scenario.{os.getpid()}.tmp")   # build privately, then move into place
     out.mkdir(parents=True, exist_ok=True)
     ids = [str(int(b[0])) for b in bus]
     (out / "bus.csv").write_text("bus_id,type\n" + "".join(f"{i},{int(b[1])}\n" for i, b in zip(ids, bus)))
@@ -122,9 +125,18 @@ def fetch_ieee14(case_file: str | Path | None = None, quiet: bool = False) -> Pa
         rows.append(f"{t}," + ",".join(repr(round(float(p) * m, d)) for p in base))
     (out / "demand_bus.csv").write_text("\n".join(rows) + "\n")
     (out / "dcline.csv").write_text("status,from_bus_id,to_bus_id,Pt\n")
-    stamp.write_text(json.dumps({"case_sha256": ov["case_file"]["sha256"], "case_source": ov["case_file"]["source"],
-                                 "overlay": "icgym/data/overlays/" + _OVERLAY}, indent=1))
-    return out
+    (out / "built_from.json").write_text(json.dumps({"case_sha256": ov["case_file"]["sha256"],
+                                                    "case_source": ov["case_file"]["source"],
+                                                    "overlay": "icgym/data/overlays/" + _OVERLAY}, indent=1))
+    try:
+        out.rename(final)          # atomic when the target does not exist yet
+    except OSError:                # another process built it first (or an old copy exists)
+        if (final / "built_from.json").is_file():
+            shutil.rmtree(out, ignore_errors=True)
+        else:
+            shutil.rmtree(final, ignore_errors=True)
+            out.rename(final)
+    return final
 
 
 def ieee14_network(case_file: str | Path | None = None):
@@ -152,7 +164,7 @@ def ieee14(buses, case_file: str | Path | None = None, workers: int = 1) -> Regi
         ex = export_region(net, key, workers=workers)
         path.parent.mkdir(parents=True, exist_ok=True)
         ex.metadata["has_counterflow"] = ex.has_counterflow
-        tmp = path.with_suffix(".part")
+        tmp = path.with_name(f"{path.name}.{os.getpid()}.part")
         save_region(ex.region, tmp, signed=(ex.signed_A, ex.signed_b), **ex.metadata)
         tmp.replace(path)
     return _reorder(load_region(path), key, want)
