@@ -11,6 +11,8 @@
 | Payoff | `V_i s_i - cost_i(r, s)`: value of the served load minus what the applicant pays |
 | Location choice | `LocationGame`: placements (buses, or splits across buses) from finite menus; shares come from the request-stage equilibrium |
 | On-site generation and storage | `GenerationGame` with a `Device` (a generator with a run-hour budget, or a battery); `rule='gross'` shares the freed room, `'credit'` credits it to the owner |
+| Devices on the network | `DeviceRegion`: generators within a daily run-hour budget, batteries, and curtailable or non-firm load, dispatched hour by hour on the real load shape. `NetworkGenerationGame` and `NetworkNonFirmGame` play the games on it; `grid_equilibria` finds their pure equilibria on strategy grids. |
+| Energy prices | `EnergyCharge` charges served energy at the LMP of the applicant's bus (`lmp`); combine with a commitment by `FeeSum`. The uniform rule's `w` is then an epsilon-equilibrium. |
 | Non-firm service | `NonFirmGame`: `rule='two_tier'` (firm and non-firm requests) or `'gross'` (a curtailable fraction of one common level) |
 
 ## Ground truth

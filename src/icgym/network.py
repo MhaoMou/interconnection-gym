@@ -52,6 +52,7 @@ class DCNetwork:
     source_hash: str = ""
     source: str = ""            # folder name, safe to publish
     root: str = ""              # full path, used only to reload in worker processes
+    gen_cost: np.ndarray | None = None   # marginal cost of each generator ($/MWh), for prices
 
     @classmethod
     def from_csv_dir(cls, directory: str | Path, horizon: int | None = None) -> DCNetwork:
@@ -98,6 +99,7 @@ class DCNetwork:
             source_hash=digest.hexdigest(),
             source=root.name,
             root=str(root.resolve()),
+            gen_cost=np.array([float(r.get("marginal_cost_c1_per_mwh") or 0.0) for r in gens]),
         )
 
     @property

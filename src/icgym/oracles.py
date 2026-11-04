@@ -59,6 +59,9 @@ def predicted_equilibrium(game: BatchGame) -> dict:
             hi = w / rule.beta if rule.beta > 0 else np.full(game.n, np.inf)
             return {"known": True, "kind": "band", "served": w, "low": w, "high": hi}
         if np.all(0 < kappa) and np.all(kappa < V) and not getattr(fee, "forfeit_rate", 0.0):
+            if getattr(fee, "has_energy_charge", False):
+                return {"known": True, "kind": "epsilon", "requests": w, "served": w,
+                        "note": "energy at the LMP: w is an epsilon-equilibrium"}
             return {"known": True, "kind": "unique", "requests": w, "served": w}
     if isinstance(rule, ProportionalRule) and getattr(region, "m", 0) == 1 and np.allclose(V, V[0]) and kappa > 0:
         a, b = region.A[0], region.b[0]

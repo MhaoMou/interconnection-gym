@@ -106,7 +106,8 @@ class BatchGame:
             pts += list(A[c, others] * r[others] / A[c, i])
         return [x * f for x in pts if x > 0 for f in (1 - 1e-9, 1.0, 1 + 1e-9)]
 
-    def best_response(self, i: int, requests, method: str = "auto", grid: int = 400) -> tuple[float, float]:
+    def best_response(self, i: int, requests, method: str = "auto", grid: int = 400,
+                      interval: tuple[float, float] | None = None) -> tuple[float, float]:
         """Best request of applicant ``i`` against the others' requests.
 
         ``method='exact'`` uses the closed form when it applies (uniform rule,
@@ -114,6 +115,8 @@ class BatchGame:
         numerically over ``[0, upper]``, which also finds deviations that get a
         rival cut. Returns ``(request, payoff)``. Under the minimum allocation
         the supremum may not be attained; the search returns the best point found.
+        ``interval=(lo, hi)`` restricts the search (useful when each payoff is
+        expensive, as with energy at the LMP).
         """
         if method in ("auto", "exact"):
             x = self._exact_best_response(i, requests)
@@ -121,16 +124,18 @@ class BatchGame:
                 return x, self.payoff(i, x, requests)
             if method == "exact":
                 raise ValueError("no closed-form best response for this rule and fee")
-        upper = self._search_upper(i, requests)
-        xs = np.linspace(0.0, upper, grid)
-        cands = list(xs) + [float(requests[i]), float(self.region.hosting_capacities()[i])]
-        cands += [x for x in self._kinks(i, requests) if 0.0 <= x <= upper]
+        lower, upper = (0.0, self._search_upper(i, requests)) if interval is None else map(float, interval)
+        xs = np.linspace(lower, upper, grid)
+        cands = list(xs) + [float(requests[i])]
+        if interval is None:
+            cands += [float(self.region.hosting_capacities()[i])]
+        cands += [x for x in self._kinks(i, requests) if lower <= x <= upper]
         vals = [self.payoff(i, x, requests) for x in cands]
         order = np.argsort(vals)[::-1][:4]
         best_x, best_v = cands[order[0]], vals[order[0]]
-        step = upper / (grid - 1)
+        step = (upper - lower) / (grid - 1)
         for k in order:
-            lo, hi = max(0.0, cands[k] - step), min(upper, cands[k] + step)
+            lo, hi = max(lower, cands[k] - step), min(upper, cands[k] + step)
             res = minimize_scalar(lambda x: -self.payoff(i, x, requests), bounds=(lo, hi),
                                   method="bounded", options={"xatol": 1e-9 * max(1.0, upper)})
             if -res.fun > best_v + 1e-12:
@@ -174,3 +179,41 @@ class BatchGame:
             if np.allclose(r, prev, atol=tol, rtol=0) and gain <= gain_tol:
                 return r, history, k - 1
         return r, history, None
+
+
+def grid_equilibria(game, strategy_sets, tol: float = 0.0):
+    """All pure equilibria of ``game`` when applicant ``i`` may only play ``strategy_sets[i]``.
+
+    Works for any game with ``payoffs(profile)``: requests (``BatchGame``),
+    ``(request, second)`` pairs (the device and non-firm games), or placements.
+    A profile is an equilibrium when no applicant gains more than ``tol`` by
+    switching to another strategy of its set. Returns ``(equilibria, table)``,
+    where ``table`` maps index profiles to payoffs (``prod |set_i|`` evaluations).
+    """
+    import itertools
+
+    sets = [list(s) for s in strategy_sets]
+    table = {}
+
+    def pay(idx):
+        if idx not in table:
+            table[idx] = np.asarray(game.payoffs(np.array([sets[i][k] for i, k in enumerate(idx)])), float)
+        return table[idx]
+
+    eqs = []
+    for idx in itertools.product(*(range(len(s)) for s in sets)):
+        u = pay(idx)
+        ok = True
+        for i in range(len(sets)):
+            for k in range(len(sets[i])):
+                if k != idx[i]:
+                    alt = list(idx)
+                    alt[i] = k
+                    if pay(tuple(alt))[i] > u[i] + tol:
+                        ok = False
+                        break
+            if not ok:
+                break
+        if ok:
+            eqs.append([sets[i][k] for i, k in enumerate(idx)])
+    return eqs, table

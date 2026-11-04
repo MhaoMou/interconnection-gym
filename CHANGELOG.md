@@ -18,6 +18,17 @@
 - **Added:** `BatchGame.predicted_equilibrium()`, `LocationGame.payoff`, and
   `TwoPartGame.best_response_dynamics`; `AllocationRule` and `Fee` are
   exported.
+- **Devices on the network:** `DeviceRegion` dispatches generators (daily
+  run-hour budget, output split by capacity), batteries (daily cycle), and
+  curtailable or non-firm load hour by hour, with days and branch limits added
+  lazily. `NetworkGenerationGame` (gross and credit-split rules) and
+  `NetworkNonFirmGame` (two-tier and gross rules) play on it.
+- **Energy at the LMP:** `lmp`, `EnergyCharge`, and `FeeSum`; the uniform
+  rule's prediction is marked as an epsilon-equilibrium when prices are
+  charged.
+- **Grid equilibria:** `grid_equilibria` enumerates pure equilibria on
+  strategy grids, for any game. `BatchGame.best_response` takes an
+  `interval`, and `DCNetwork` reads generator costs.
 - **Docs:** a generated API reference, published at
   <https://mhaomou.github.io/interconnection-gym/docs/>.
 

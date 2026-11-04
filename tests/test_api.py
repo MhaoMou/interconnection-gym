@@ -14,6 +14,7 @@ EXPORTS = {
     "flat_fee_example", "ieee14", "load_region", "load_region_record", "max_min_fair_point", "peak_theta",
     "poa_bound", "poa_worst_case", "predicted_equilibrium", "price_of_anarchy", "proportional_inflation",
     "random_region", "reference", "save_region", "stages", "water_fill", "water_fill_offset",
+    "DeviceRegion", "EnergyCharge", "FeeSum", "NetworkGenerationGame", "NetworkNonFirmGame", "grid_equilibria", "lmp",
 }
 
 # every game answers the same questions with the same method names

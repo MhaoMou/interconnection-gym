@@ -6,7 +6,7 @@ The names a script normally needs are importable from `icgym` directly.
 | Page | Modules |
 |---|---|
 | [Core](core.md) | regions, water-filling, rules, fees, the batch game, oracles |
-| [Extensions](extensions.md) | location game; generation, storage, and non-firm service |
+| [Extensions](extensions.md) | location game; generation, storage, and non-firm service (constant-theta and dispatched over the network's days); energy at the LMP |
 | [Networks and data](networks.md) | DC networks, region export, `DCOPFRegion`, bundled and on-demand data |
 | [Environments](environments.md) | PettingZoo, Gymnasium, and vectorized environments |
 | [Tools](tools.md) | rule comparison and benchmarks |

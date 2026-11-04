@@ -9,9 +9,11 @@ from .compare import compare_rules
 from .dcopf_region import DCOPFRegion
 from .devices import Device, GenerationGame, NonFirmGame, peak_theta, water_fill_offset
 from .fees import Fee, FlatFee, PerMWCommitment, SecurityDeposit
-from .game import BatchGame
+from .game import BatchGame, grid_equilibria
 from .location import LocationGame, activsg2000_location
+from .network_devices import DeviceRegion, NetworkGenerationGame, NetworkNonFirmGame
 from .oracles import poa_bound, predicted_equilibrium, price_of_anarchy, proportional_inflation, stages
+from .prices import EnergyCharge, FeeSum, lmp
 from .region import Region
 from .rules import AllocationRule, ProportionalRule, UniformRule, UtilitarianRule
 from .scenarios import (
@@ -32,6 +34,13 @@ from .waterfill import max_min_fair_point, water_fill
 __version__ = "1.0.0rc1"
 
 __all__ = [
+    "DeviceRegion",
+    "EnergyCharge",
+    "FeeSum",
+    "NetworkGenerationGame",
+    "NetworkNonFirmGame",
+    "grid_equilibria",
+    "lmp",
     "AllocationRule",
     "Fee",
     "BatchGame",
