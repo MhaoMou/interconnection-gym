@@ -4,16 +4,17 @@
 
 Project page: <https://mhaomou.github.io/interconnection-gym/>
 
-A simulator, a set of reinforcement-learning environments, and a benchmark
-for the **batch interconnection of large loads** (data centers and similar
-loads). Applicants request grid capacity, the operator splits what the network
+A policy simulator for the **batch interconnection of large loads** (data
+centers and similar loads). Applicants request grid capacity, the operator splits what the network
 can host among them with an allocation rule, and every applicant pays for what
 it requested.
 
 - **Operators and analysts** compare allocation rules and fees on their own
   network before adopting them.
-- **Researchers** get multi-agent games whose equilibria are known in closed
-  form, so learned behavior can be scored against ground truth.
+- **Researchers** get games whose equilibria are known in closed form, for
+  studying allocation rules as mechanisms: any model of applicant behavior,
+  plugged in through standard multi-agent interfaces, can be scored against
+  ground truth.
 
 ## Install
 
@@ -21,6 +22,7 @@ it requested.
 # not yet on PyPI: install from GitHub
 pip install "interconnection-gym @ git+https://github.com/MhaoMou/interconnection-gym"          # core: numpy and scipy
 pip install "interconnection-gym[envs] @ git+https://github.com/MhaoMou/interconnection-gym"    # adds Gymnasium and PettingZoo
+pip install "interconnection-gym[ac] @ git+https://github.com/MhaoMou/interconnection-gym"      # adds CasADi and Ipopt, for AC power flow
 ```
 
 ## Quick start

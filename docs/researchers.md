@@ -21,7 +21,7 @@ Install with `pip install "interconnection-gym[envs]"`.
 - **Rewards:** payoffs divided by the value at the hosting capacity, `V_i h_i`.
 - **`info`:** carries the theory's prediction and, on request, each
   applicant's exploitability.
-- **Vectorized environment:** `allocate_batch` vectorizes the uniform and
+- **Vectorized environment:** [`allocate_batch`](technical.md#batched-allocation) vectorizes the uniform and
   proportional rules, about 50 times faster than a Python loop.
 
 ```python
@@ -49,7 +49,7 @@ a queue on a region over buses:
 `simulate(policy)` runs a whole queue and reports the MW connected, the MW
 requested but not served, and the batches to connect. Its ground truth is the
 batch-by-batch equilibrium: water-filling the residual region, capped at each
-applicant's remaining need (`myopic_equilibrium`).
+applicant's remaining need ([`myopic_equilibrium`](technical.md#myopic-batch-equilibrium)).
 `icgym.sequential.SequentialBatchEnv` is the PettingZoo version, with agents
 that arrive and leave. Agent slots never used by an arrival are not
 terminated, which PettingZoo's API test reports as a warning.
@@ -58,7 +58,7 @@ terminated, which PettingZoo's API test reports as a warning.
 
 `icgym.rule_design.OperatorEnv` (Gymnasium) lets an operator choose the rule,
 its minimum allocation, and the commitment for a batch on a sampled network.
-Applicants answer at equilibrium (`equilibrium_response`): the theory's
+Applicants answer at equilibrium ([`equilibrium_response`](technical.md#equilibrium-response)): the theory's
 equilibrium where known, and best-response dynamics otherwise. The operator is
 rewarded by an `Objective`: efficiency, minus waste and unfairness.
 `SequentialOperatorEnv` does the same before every batch of a queue.
@@ -76,14 +76,14 @@ rewarded by an `Objective`: efficiency, minus waste and unfairness.
 | `generation-gross-cycle` | no pure equilibrium |
 | `nonfirm-two-tier` | firm and non-firm tiers served in full |
 
-Three baselines:
+Three [baselines](technical.md#learning-baselines):
 - **`best_response`:** best-response dynamics, an oracle that sees payoffs;
 - **`hedge`:** full-information multiplicative weights on an action grid;
 - **`independent_pg`:** independent policy gradient, which sees only its own
   rewards.
 
 Each run is scored on:
-- **exploitability:** the largest gain from a unilateral deviation, over
+- **[exploitability](technical.md#exploitability):** the largest gain from a unilateral deviation, over
   `V_i h_i`;
 - **distance:** the gap to the predicted equilibrium, over `h_i`;
 - **efficiency:** total served over the planner's optimum.

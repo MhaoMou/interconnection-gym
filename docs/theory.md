@@ -5,16 +5,16 @@
 | Piece | Options |
 |---|---|
 | Locations | **Fixed** in `BatchGame` and its environments: column `i` of the region is applicant `i` at its given bus, and the strategy is the request alone. **Chosen** from a menu of buses (or splits across buses) in `LocationGame`. |
-| Region (what the grid can host) | `Region`: `{s >= 0 : A s <= b}` with `A >= 0` (downward closed). `Region.downward_closed` keeps the positive part of a general polytope, which treats counterflow between new loads as non-firm. `DCOPFRegion` is the exact network region, queried by LPs. |
-| Allocation rule | `UniformRule` (the default; optional fixed `weights`), `ProportionalRule`, `UtilitarianRule`. Each has a minimum allocation `beta` and a cut order (`largest_request` or `largest_loading`). |
+| Region (what the grid can host) | `Region`: `{s >= 0 : A s <= b}` with `A >= 0` (downward closed). `Region.downward_closed` keeps the [positive part](technical.md#largest-downward-closed-subset-and-counterflow) of a general polytope, which treats counterflow between new loads as non-firm. `DCOPFRegion` is the exact network region, queried by [LPs](technical.md#queries-on-an-implicit-region). |
+| Allocation rule | `UniformRule` (the default; optional fixed `weights`), `ProportionalRule`, `UtilitarianRule`. Each has a minimum allocation `beta` and a [cut order](technical.md#minimum-allocation-and-cut-order) (`largest_request` or `largest_loading`). |
 | Fee | `PerMWCommitment`, `FlatFee`, `SecurityDeposit` (carrying cost, forfeit on unserved MW, study fee) |
 | Payoff | `V_i s_i - cost_i(r, s)`: value of the served load minus what the applicant pays |
 | Location choice | `LocationGame`: placements (buses, or splits across buses) from finite menus; shares come from the request-stage equilibrium |
-| On-site generation and storage | `GenerationGame` with a `Device` (a generator with a run-hour budget, or a battery); `rule='gross'` shares the freed room, `'credit'` credits it to the owner |
-| Devices on the network | `DeviceRegion`: generators within a daily run-hour budget, batteries, and curtailable or non-firm load, dispatched hour by hour on the real load shape. `NetworkGenerationGame` and `NetworkNonFirmGame` play the games on it; `grid_equilibria` finds their pure equilibria on strategy grids. |
-| Sequential batches | `SequentialBatchGame`: arrivals, residual capacity after earlier batches, load growth, and waiting; ground truth batch by batch. |
-| The operator's choice | `OperatorEnv`, `SequentialOperatorEnv`: the operator picks the rule, `beta`, and `kappa`; applicants answer at equilibrium (`equilibrium_response`). |
-| Energy prices | `EnergyCharge` charges served energy at the LMP of the applicant's bus (`lmp`); combine with a commitment by `FeeSum`. The uniform rule's `w` is then an epsilon-equilibrium. |
+| On-site generation and storage | `GenerationGame` with a `Device` (a generator with a run-hour budget, or a battery); [`rule='gross'`](technical.md#gross-rule-and-crediting) shares the freed room, `'credit'` credits it to the owner |
+| Devices on the network | [`DeviceRegion`](technical.md#devices-on-the-network): generators within a daily run-hour budget, batteries, and curtailable or non-firm load, dispatched hour by hour on the real load shape. `NetworkGenerationGame` and `NetworkNonFirmGame` play the games on it; [`grid_equilibria`](technical.md#equilibria-on-strategy-grids) finds their pure equilibria on strategy grids. |
+| Sequential batches | `SequentialBatchGame`: arrivals, [residual capacity](technical.md#residual-region) after earlier batches, load growth, and waiting; ground truth batch by batch. |
+| The operator's choice | `OperatorEnv`, `SequentialOperatorEnv`: the operator picks the rule, `beta`, and `kappa`; applicants answer at equilibrium ([`equilibrium_response`](technical.md#equilibrium-response)). |
+| Energy prices | `EnergyCharge` charges served energy at the [LMP](technical.md#lmps-from-lp-duals) of the applicant's bus (`lmp`); combine with a commitment by `FeeSum`. The uniform rule's `w` is then an [epsilon-equilibrium](technical.md#energy-charge-and-the-epsilon-equilibrium). |
 | Non-firm service | `NonFirmGame`: `rule='two_tier'` (firm and non-firm requests) or `'gross'` (a curtailable fraction of one common level) |
 
 ## Ground truth
@@ -26,7 +26,7 @@ These are the results of the accompanying paper that the package exposes.
   allocation `beta`.
 - **Best-response dynamics:** without the minimum allocation, best responses
   reach `w` within `2K <= 2n` rounds from any start, where `K` is the number
-  of water-filling stages.
+  of [water-filling stages](technical.md#water-filling-and-the-max-min-fair-point).
 - **Flat fee:** every profile in `[w, w/beta]` is an equilibrium, and all of
   them serve `w`.
 - **Proportional rule on one limit:** requests are inflated by
@@ -34,9 +34,9 @@ These are the results of the accompanying paper that the package exposes.
 - **Weighted uniform rule:** with weights `1/a_i` on one limit, it gives the
   proportional rule's service without the inflation.
 - **Price of anarchy:** at most `(1 + nR)^2 / (4nR)`, where `R` is the ratio
-  of the largest to the smallest single-site hosting capacity.
+  of the largest to the smallest single-site [hosting capacity](technical.md#downward-closed-regions-and-hosting-capacity).
 - **Location game:** on a downward-closed network a strong pure equilibrium
-  exists. Every improving move raises the sorted shares lexicographically, so
+  exists. Every [improving move](technical.md#improving-moves-in-the-location-game) raises the sorted shares lexicographically, so
   best-response dynamics converge.
 - **On-site generation:**
   - With devices fixed, `w(G)` is the unique request equilibrium.
@@ -50,12 +50,12 @@ These are the results of the accompanying paper that the package exposes.
 
 ## Oracles
 
-- `predicted_equilibrium(game)` and the `predicted_equilibrium()` method of
+- [`predicted_equilibrium(game)`](technical.md#equilibrium-oracles) and the `predicted_equilibrium()` method of
   the extension games return the theory's answer, or `{"known": False}`.
 - `price_of_anarchy`, `poa_bound`, `stages`, and `proportional_inflation`
   compute the quantities above.
-- `exploitability(...)` returns each applicant's gain from its best unilateral
-  deviation, found by numerical search.
+- [`exploitability(...)`](technical.md#exploitability) returns each applicant's gain from its best unilateral
+  deviation, found by [numerical search](technical.md#best-response-search).
 - `LocationGame.improving_moves()` counts improving moves and checks that each
   one raises the sorted shares.
 

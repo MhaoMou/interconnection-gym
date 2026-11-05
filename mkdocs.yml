@@ -20,6 +20,7 @@ nav:
   - Model and theory: theory.md
   - Comparing rules: operators.md
   - Regions from a network: networks.md
+  - Technical details: technical.md
   - Environments and benchmarks: researchers.md
   - Data and licenses: data.md
   - Development: development.md

@@ -190,7 +190,7 @@ def _operator_plot(out: Path, data):
     it = np.arange(1, len(curve) + 1)
     axes[2].plot(it, [c["mean"] for c in curve], color=DARK, lw=1.9, label=r"population mean")
     axes[2].plot(it, [c["best"] for c in curve], color=GREY, lw=1.2, ls=(0, (4, 2)), label=r"best candidate")
-    axes[2].set_title(r"(c) an operator learning", loc="left")
+    axes[2].set_title(r"(c) a search over designs", loc="left")
     axes[2].set_xlabel(r"cross-entropy iterations")
     axes[2].set_ylabel(r"objective")
     axes[2].legend(frameon=False, loc="lower right")

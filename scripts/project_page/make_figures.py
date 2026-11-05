@@ -175,7 +175,7 @@ def teaser(out, layout=None, activsg=None):
     info["region"] = region_panel(rest[0])
     rest[0].set_title(("(b) " if has_map else "(a) ") + r"what the rule serves", loc="left")
     info["learning"] = learning_panel(rest[1])
-    rest[1].set_title(("(c) " if has_map else "(b) ") + r"what agents learn", loc="left")
+    rest[1].set_title(("(c) " if has_map else "(b) ") + r"adaptive applicants", loc="left")
     fig.tight_layout(w_pad=2.2)
     fig.savefig(out / "teaser.svg")
     plt.close(fig)

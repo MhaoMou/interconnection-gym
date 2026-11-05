@@ -2,7 +2,7 @@
 
 `icgym-compare` finds each rule's equilibrium on one batch. Where the theory
 gives the answer, it uses that and checks it numerically. Elsewhere it runs
-best-response dynamics from the max-min fair point.
+[best-response dynamics](technical.md#best-response-dynamics) from the max-min fair point.
 
 For each rule it reports:
 - served MW and the planner's optimum;

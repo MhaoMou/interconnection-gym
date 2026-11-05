@@ -1,17 +1,17 @@
 # interconnection-gym
 
-A simulator, a set of reinforcement-learning environments, and a benchmark
-for the **batch interconnection of large loads** (data centers and similar
-loads). Applicants request grid capacity, the operator splits what the network
+A policy simulator for the **batch interconnection of large loads** (data
+centers and similar loads). Applicants request grid capacity, the operator splits what the network
 can host among them with an allocation rule, and every applicant pays for what
 it requested.
 
 - **Operators and analysts** can compare allocation rules and fees on their
   own network <span class="hl">before adopting them</span>:
   [Comparing rules](operators.md).
-- **Researchers** get multi-agent games whose
-  <span class="hl">equilibria are known in closed form</span>, so learned
-  behavior is scored against ground truth:
+- **Researchers** get games whose
+  <span class="hl">equilibria are known in closed form</span>, for studying
+  allocation rules as mechanisms: any model of applicant behavior can be
+  scored against ground truth:
   [Environments and benchmarks](researchers.md).
 
 ## The default game: fixed locations
@@ -32,6 +32,7 @@ a non-firm request (`NonFirmGame`).
 # not yet on PyPI: install from GitHub
 pip install "interconnection-gym @ git+https://github.com/MhaoMou/interconnection-gym"          # core: numpy and scipy
 pip install "interconnection-gym[envs] @ git+https://github.com/MhaoMou/interconnection-gym"    # adds Gymnasium and PettingZoo
+pip install "interconnection-gym[ac] @ git+https://github.com/MhaoMou/interconnection-gym"      # adds CasADi and Ipopt, for AC power flow
 ```
 
 Python 3.10 or newer.
@@ -56,6 +57,7 @@ game.exploitability([1.5, 1.0, 2.0])          # applicant 0 gains 0.2 by returni
 | [Model and theory](theory.md) | What is modeled, and the results the oracles return |
 | [Comparing rules](operators.md) | `icgym-compare` and `compare_rules` |
 | [Regions from a network](networks.md) | Exporting a batch region from a DC power-flow study; the implicit `DCOPFRegion` |
+| [Technical details](technical.md) | How regions, rules, equilibria, prices, devices, and the AC region are computed |
 | [Environments and benchmarks](researchers.md) | PettingZoo and Gymnasium environments, the vectorized environment, benchmark tasks and baselines |
 | [Data and licenses](data.md) | The bundled IEEE 14-bus and ACTIVSg2000 catalogs, where they come from, and their terms |
 | [Development](development.md) | Tests, lint, and the release checklist |
