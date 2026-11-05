@@ -5,6 +5,7 @@ numpy and scipy. The RL environments in :mod:`icgym.envs` need the ``envs``
 extra (gymnasium and pettingzoo).
 """
 
+from .ac_region import ACNetwork, ACOPFRegion, downward_closure_check
 from .compare import compare_rules
 from .dcopf_region import DCOPFRegion
 from .devices import Device, GenerationGame, NonFirmGame, peak_theta, water_fill_offset
@@ -36,6 +37,9 @@ from .waterfill import max_min_fair_point, water_fill
 __version__ = "1.0.0rc1"
 
 __all__ = [
+    "ACNetwork",
+    "ACOPFRegion",
+    "downward_closure_check",
     "Applicant",
     "ArrivalProcess",
     "Objective",

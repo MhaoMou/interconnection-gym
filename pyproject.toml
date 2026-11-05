@@ -5,13 +5,13 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "interconnection-gym"
 version = "1.0.0rc1"
-description = "Batch interconnection of large loads as a multi-agent game: allocation rules, fees, equilibrium oracles, and RL environments"
+description = "A policy simulator for batch interconnection of large loads: allocation rules, fees, network-derived scenarios, and equilibrium oracles"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "Minghao Mou" }]
-keywords = ["power systems", "interconnection", "game theory", "multi-agent reinforcement learning",
-            "data centers", "pettingzoo", "gymnasium"]
+keywords = ["power systems", "interconnection", "game theory", "mechanism design",
+            "data centers", "hosting capacity", "pettingzoo", "gymnasium"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
@@ -37,6 +37,9 @@ Documentation = "https://mhaomou.github.io/interconnection-gym/docs/"
 envs = [
     "gymnasium>=0.29",
     "pettingzoo>=1.24",
+]
+ac = [
+    "casadi>=3.6",
 ]
 test = [
     "pytest>=8",

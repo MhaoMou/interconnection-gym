@@ -146,6 +146,22 @@ def ieee14_network(case_file: str | Path | None = None):
     return DCNetwork.from_csv_dir(fetch_ieee14(case_file))
 
 
+def ieee14_ac_network(case_file: str | Path | None = None):
+    """The IEEE 14-bus scenario as an :class:`icgym.ac_region.ACNetwork`, for AC studies.
+
+    The same case file and overlay as :func:`ieee14_network`: the overlay's
+    thermal limits become MVA limits, its multipliers scale active and reactive
+    base loads alike, and voltage limits, reactive limits, line resistances, and
+    shunts come from the case file.
+    """
+    from .ac_region import ACNetwork
+
+    ov = _overlay()
+    path = _case_file(case_file, ov, quiet=False)
+    return ACNetwork.from_matpower(path, rate=ov["thermal_limit_mva"], period_multipliers=ov["period_multipliers"],
+                                   pmin={g["bus_id"]: g["p_min_mw"] for g in ov["generators"]}, source="ieee14")
+
+
 def ieee14(buses, case_file: str | Path | None = None, workers: int = 1) -> Region:
     """IEEE 14-bus batch region for a bus set such as ``(9, 13, 14)``, columns in the given order.
 

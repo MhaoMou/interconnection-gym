@@ -233,6 +233,10 @@ class DCOPFRegion:
                             _Extra(A=A, b=b, bounds=[(0.0, float(u)) for u in r] + [(0.0, 1.0)]))
         return x if res is None else res[1]
 
+    def _unblocked_stage(self, s, rising, room, scale):
+        """No applicant is blocked at the level; impossible on a convex region (the level LP is exact)."""
+        raise RuntimeError("no applicant blocked at the level")
+
     def water_fill(self, requests, weights=None, active=None, return_stages: bool = False):
         """Water-filling ``U(r)`` by LPs: raise the level, then find who is blocked."""
         n = self.n
@@ -258,6 +262,7 @@ class DCOPFRegion:
             level = res[0]
             s[idx] = lam[idx] * level
             stop = rising & (s >= r - TOL * scale)
+            room = {}
             for i in idx:
                 if stop[i]:
                     continue
@@ -265,10 +270,11 @@ class DCOPFRegion:
                 c[i] = 1.0
                 others = {j: float(s[j]) for j in range(n) if j != i}
                 own = self._optimize(c, _Extra(bounds=self._bounds(others)))
+                room[int(i)] = np.inf if own is None else own[0] - s[i]
                 if own is None or own[0] <= s[i] + 1e-6 * scale:
                     stop[i] = True
             if not stop.any():
-                raise RuntimeError("no applicant blocked at the level")
+                stop = self._unblocked_stage(s, rising, room, scale)
             if return_stages:
                 stages.append(Stage(level, tuple(np.where(stop)[0].tolist()), ()))
             for i in np.where(stop)[0]:

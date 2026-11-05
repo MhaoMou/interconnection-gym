@@ -8,6 +8,7 @@ from icgym import BatchGame, GenerationGame, LocationGame, NonFirmGame, Region
 from icgym.devices import TwoPartGame
 
 EXPORTS = {
+    "ACNetwork", "ACOPFRegion", "downward_closure_check",
     "AllocationRule", "BatchGame", "DCOPFRegion", "Device", "Fee", "FlatFee", "GenerationGame", "LocationGame",
     "NonFirmGame", "PerMWCommitment", "ProportionalRule", "Region", "SecurityDeposit", "UniformRule",
     "UtilitarianRule", "activsg2000", "activsg2000_location", "bundled", "bundled_region", "compare_rules",
